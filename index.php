@@ -8,6 +8,7 @@ include 'classes/Employee.php';
 
 // erstes Ziel: list.php anzeigen
 $action = $_REQUEST['action'] ?? 'showList'; // showList as Standardvalue
+$area = $_REQUEST['area'] ?? 'employee';
 $id = $_REQUEST['id'] ?? '';
 
 $firstName = $_POST['firstName'] ?? '';
@@ -22,8 +23,10 @@ try {
         case 'showList':
             //(new Employee()) erstellt ein unbenanntes Employeeobjekt, welches direkt benutzt wird
             // um Methoden  aufrufen zu können, vergl. mit showUpdate
-            $employees = (new Employee())->getAllAsObjects();
-            $view = $action;
+            if ($area === 'employee') {
+                $employees = (new Employee())->getAllAsObjects();
+                $view = $action;
+            }
             break;
         case 'showUpdate':
             $e = new Employee();
