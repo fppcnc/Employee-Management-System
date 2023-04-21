@@ -1,0 +1,25 @@
+eingabefelder erstellen:
+    "vorname"
+    "nachname"
+    "abteilungId"
+    eingabefelder abhärten
+    submit- und resetbutton erstellen
+    Navigationsknopf für Liste erstellen
+
+empfangene daten auslesen und festlegen:
+    Bearbeitungstyp
+    id vorhanden?
+    wenn ja, welche id?
+    Daten in die Inputfelder einfügen
+    variable "action" erstellen
+entprechende submitbutton
+    "reset"
+    neuladen der seite mit parametern aus zeile 2-4
+
+
+    "submit"
+    daten überprüfen auf verarbeitbarkeit
+        Laden der Seite mit Liste
+
+    falls daten nicht geeignet:
+        Fehlermeldung
