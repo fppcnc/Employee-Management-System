@@ -22,22 +22,20 @@
     }
     ?>
 </h1>
-    <div class="wrapper">
-    <nav>
-        <a href="index.php?action=showList">
-            <button>Zurück zur Liste</button>
-        </a>
-    </nav>
+<div class="wrapper">
+    <?php
+    include 'views/navigation.php';
+    ?>
     <div class="table">
         <form method="post" action="index.php">
             <input type="hidden" name="area" value="employee">
-            <input type="hidden" name="action" value="<?php echo (isset($employee)) ? 'update' : 'create';?>">
-<!--//        shorthand for ->:-->
-<!--//            if (isset($employee)) {-->
-<!--//                echo 'update';-->
-<!--//            } else {-->
-<!--//                echo 'create';-->
-<!--//            };-->
+            <input type="hidden" name="action" value="<?php echo (isset($employee)) ? 'update' : 'create'; ?>">
+            <!--//        shorthand for ->:-->
+            <!--//            if (isset($employee)) {-->
+            <!--//                echo 'update';-->
+            <!--//            } else {-->
+            <!--//                echo 'create';-->
+            <!--//            };-->
 
             <div class="row header blue">
                 <div class="cell">
@@ -66,7 +64,7 @@
                     if (isset($employee)) {
                         ?>
                         <input type="hidden" name="id" value="<?php if (isset($employee)) echo $employee->getId(); ?>">
-                    <?php
+                        <?php
                     }
                     ?>
                 </div>
@@ -83,15 +81,15 @@
                            value="<?php if (isset($employee)) echo $employee->getDepartmentId(); ?>">
                 </div>
                 <div class="cell" data-title="Speichern">
-                        <button type="submit" class="Save">Speichern</button>
-                        <button type="reset" class="Reset">Reset</button>
+                    <button type="submit" class="Save">Speichern</button>
+                    <button type="reset" class="Reset">Reset</button>
                 </div>
             </div>
-        <div>
-<!--            für Fehlermeldung-->
-        </div>
+            <div>
+                <!--            für Fehlermeldung-->
+            </div>
 
-    </form>
+        </form>
     </div>
 </div>
 </body>

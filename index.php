@@ -69,4 +69,4 @@ try {
 }
 
 
-include 'views/' . $view . '.php';
+include 'views/' . $view . ucfirst($area). '.php';
