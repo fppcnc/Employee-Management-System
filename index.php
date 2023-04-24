@@ -25,6 +25,8 @@ try {
             // um Methoden  aufrufen zu können, vergl. mit showUpdate
             if ($area === 'employee') {
                 $employees = (new Employee())->getAllAsObjects();
+            } else if ($area === 'department'){
+                $departments = (new Department())->getAllAsObjects();
             }
             $view = $action;
             break;
