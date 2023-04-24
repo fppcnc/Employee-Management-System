@@ -48,7 +48,6 @@ try {
             break;
         case 'create':
             (new Employee())->createNewEmployee($firstName, $lastName, $departmentId);
-            $employees = (new Employee())->getAllAsObjects();
         default :
             // falls nicht erwarteter Wert für $action übergeben wird
             $employees = (new Employee())->getAllAsObjects();
