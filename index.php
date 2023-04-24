@@ -25,8 +25,8 @@ try {
             // um Methoden  aufrufen zu können, vergl. mit showUpdate
             if ($area === 'employee') {
                 $employees = (new Employee())->getAllAsObjects();
-                $view = $action;
             }
+            $view = $action;
             break;
         case 'showUpdate':
             if ($area === 'employee') {
@@ -36,24 +36,24 @@ try {
         case 'showCreate':
             if ($area === 'employee') {
                 // showCreate und showUpdate haben gleiche Oberfläche
-                $view = 'showUpdateAndCreate';
-                break;
             }
+            $view = 'showUpdateAndCreate';
+            break;
         case 'delete':
             if ($area === 'employee') {
                 (new Employee())->delete($id);
                 $employees = (new Employee())->getAllAsObjects();
                 $view = 'showList';
-                break;
             }
+            break;
         case 'update':
             if ($area === 'employee') {
                 $employee = new Employee($id, $firstName, $lastName, $departmentId);
                 $employee->store();
                 $employees = (new Employee())->getAllAsObjects();
                 $view = 'showList';
-                break;
             }
+            break;
         case 'create':
             if ($area === 'employee') {
                 (new Employee())->createNewEmployee($firstName, $lastName, $departmentId);
