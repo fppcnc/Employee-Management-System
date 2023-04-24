@@ -29,25 +29,35 @@ try {
             }
             break;
         case 'showUpdate':
-            $e = new Employee();
-            $employee = $e->getEmployeeById($id);
+            if ($area === 'employee') {
+                $e = new Employee();
+                $employee = $e->getEmployeeById($id);
+            }
         case 'showCreate':
-            // showCreate und showUpdate haben gleiche Oberfläche
-            $view = 'showUpdateAndCreate';
-            break;
+            if ($area === 'employee') {
+                // showCreate und showUpdate haben gleiche Oberfläche
+                $view = 'showUpdateAndCreate';
+                break;
+            }
         case 'delete':
-            (new Employee())->delete($id);
-            $employees = (new Employee())->getAllAsObjects();
-            $view = 'showList';
-            break;
+            if ($area === 'employee') {
+                (new Employee())->delete($id);
+                $employees = (new Employee())->getAllAsObjects();
+                $view = 'showList';
+                break;
+            }
         case 'update':
-            $employee = new Employee($id, $firstName, $lastName, $departmentId);
-            $employee->store();
-            $employees = (new Employee())->getAllAsObjects();
-            $view = 'showList';
-            break;
+            if ($area === 'employee') {
+                $employee = new Employee($id, $firstName, $lastName, $departmentId);
+                $employee->store();
+                $employees = (new Employee())->getAllAsObjects();
+                $view = 'showList';
+                break;
+            }
         case 'create':
-            (new Employee())->createNewEmployee($firstName, $lastName, $departmentId);
+            if ($area === 'employee') {
+                (new Employee())->createNewEmployee($firstName, $lastName, $departmentId);
+            }
         default :
             // falls nicht erwarteter Wert für $action übergeben wird
             $employees = (new Employee())->getAllAsObjects();

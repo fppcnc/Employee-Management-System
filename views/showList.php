@@ -56,12 +56,12 @@
                     <?php echo $employee->getDepartmentId(); ?>
                 </div>
                 <div class="cell" data-title="Löschen">
-                    <a href='index.php?action=delete&id=<?php echo $employee->getId(); ?>'>
+                    <a href='index.php?action=delete&&area=employee&id=<?php echo $employee->getId(); ?>'>
                         <button type="button" class="delete">Löschen</button>
                     </a>
                 </div>
                 <div class="cell" data-title="Ändern">
-                    <a href='index.php?action=showUpdate&id=<?php echo $employee->getId(); ?>'>
+                    <a href='index.php?action=showUpdate&area=employee&id=<?php echo $employee->getId(); ?>'>
                         <button type="button" class="update">Ändern</button>
                     </a>
                 </div>

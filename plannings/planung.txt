@@ -23,3 +23,10 @@ entprechende submitbutton
 
     falls daten nicht geeignet:
         Fehlermeldung
+
+
+Erwweiterung : Abteilung soll analog zu einer CRUD-Anwendung programmiert werden
+Anschließend soll die Navigation erweitert werden
+Danach soll in der EmployeeList nicht mehr die AbteilungId angezeit werden, sondern
+der Name der Abteilung. Beim Erstellen eines Mitarbeiters soll es bei der Abteilung
+die Auswahl der Abteilungen stehen, siehe Mockups

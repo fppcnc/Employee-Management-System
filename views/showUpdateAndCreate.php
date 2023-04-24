@@ -30,6 +30,7 @@
     </nav>
     <div class="table">
         <form method="post" action="index.php">
+            <input type="hidden" name="area" value="employee">
             <input type="hidden" name="action" value="<?php echo (isset($employee)) ? 'update' : 'create';?>">
 <!--//        shorthand for ->:-->
 <!--//            if (isset($employee)) {-->
