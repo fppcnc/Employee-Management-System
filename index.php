@@ -95,3 +95,4 @@ try {
 
 
 include 'views/' . $view . ucfirst($area). '.php';
+

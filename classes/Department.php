@@ -1,6 +1,7 @@
 <?php
 
 class Department
+
 {
     private int $idDepartment;
     private string $departmentName;
@@ -84,7 +85,7 @@ class Department
         $departments = $this->getAllAsObjects();
         foreach ($departments as $key => $department) {
             if ($department->getId() === $this->id) {
-                $$departments[$key] = $this;
+                $departments[$key] = $this;
                 break;
             }
         }
@@ -145,6 +146,19 @@ class Department
         $d->storeInFile($departments);
         file_put_contents(CSV_PATH_ID_DEPARTMENT_COUNTER, $id + 1);
         return new Department();
+    }
+
+    /**
+     * @param $departmentId
+     * @return string
+     */
+    public function getDepartmentNameById($departmentId):string
+    {
+
+    if (isset($this->departments[$departmentId])){
+        return $this->departments[$departmentId];
+    }
+        return "Abteilung nicht gefunden";
     }
 
 }

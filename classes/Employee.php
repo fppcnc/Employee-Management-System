@@ -181,4 +181,14 @@ class Employee
         file_put_contents(CSV_PATH_ID_EMPLOYEE_COUNTER, $id + 1);
         return new Employee();
     }
+
+
+    public function printDepartmentNameFromEmployeeDepartmentId(): string
+    {
+        //instance von Department Class
+        $department = new Department;
+        // get departmentName using the departmentId of the Employee
+        $departmentName = $department->getDepartmentNameById($this->departmentId);
+        return $departmentName;
+    }
 }
