@@ -8,11 +8,12 @@
     <title>Document</title>
 </head>
 <body>
-<h1>Abteilung Liste
-<link rel="stylesheet" href="css/style.css">
-</h1>
 
+<link rel="stylesheet" href="css/style.css">
 <div class="wrapper">
+    <h1>Abteilung Liste
+
+    </h1>
     <?php
     include 'views/navigation.php';
     ?>

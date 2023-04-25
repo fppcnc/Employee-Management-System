@@ -8,10 +8,7 @@
 
 </head>
 <body>
-<h1>
-    <title>Mitarbeiter Liste</title>
-    <link rel="stylesheet" href="css/style.css">
-</h1>
+
 <?php
 
 //echo '<pre>';
@@ -20,6 +17,10 @@
 
 ?>
 <div class="wrapper">
+    <h1>
+        <title>Mitarbeiter Liste</title>
+        <link rel="stylesheet" href="css/style.css">
+    </h1>
     <?php
     include 'views/navigation.php';
     ?>

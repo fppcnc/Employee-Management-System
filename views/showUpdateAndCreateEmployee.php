@@ -9,20 +9,21 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-<h1>
-    <?php
-    if (isset($_GET['id'])) {
-        ?>
-        Mitarbeiter editieren
-        <?php
-    } else {
-        ?>
-        Mitarbeiter erstellen
-        <?php
-    }
-    ?>
-</h1>
+
 <div class="wrapper">
+    <h1>
+        <?php
+        if (isset($_GET['id'])) {
+            ?>
+            Mitarbeiter editieren
+            <?php
+        } else {
+            ?>
+            Mitarbeiter erstellen
+            <?php
+        }
+        ?>
+    </h1>
     <?php
     include 'views/navigation.php';
     ?>
