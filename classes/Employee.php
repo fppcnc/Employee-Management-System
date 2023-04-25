@@ -67,12 +67,12 @@ class Employee
         // dieser catch-Teil wiederum muss anschließend geschrieben werden
         // und/oder in der aufrufenden Funktion
         try {
-            if (!is_file(CSV_PATH)) {
-                fopen(CSV_PATH, 'w');
+            if (!is_file(CSV_PATH_EMPLOYEE)) {
+                fopen(CSV_PATH_EMPLOYEE, 'w');
 //            die(CSV_PATH . 'existiert nicht');
             }
 
-            $handle = fopen(CSV_PATH, 'r');
+            $handle = fopen(CSV_PATH_EMPLOYEE, 'r');
             $employees = [];
 
             while ($content = fgetcsv($handle, null, ',')) {
@@ -144,9 +144,9 @@ class Employee
     {
         try {
             // Datei employee.csv löschen
-            unlink(CSV_PATH);
+            unlink(CSV_PATH_EMPLOYEE);
             // Datei mit verkleinertem Array $employees neu schreiben
-            $handle = fopen(CSV_PATH, 'w');
+            $handle = fopen(CSV_PATH_EMPLOYEE, 'w');
             foreach ($employees as $employee) {
                 // jedes Objekt in ein Array überführen
                 $empAssoArray = (array)$employee;
@@ -168,17 +168,17 @@ class Employee
         // wir brauchen eine (auto-increment-)Id für dieses Employee-Objekt
         // dazu schreiben wir immer die nächste id in eine static Variable in Klasse Employee
 
-        if (!is_file(CSV_PATH_ID_COUNTER)) {
-            file_put_contents(CSV_PATH_ID_COUNTER, 1);
+        if (!is_file(CSV_PATH_ID_EMPLOYEE_COUNTER)) {
+            file_put_contents(CSV_PATH_ID_EMPLOYEE_COUNTER, 1);
         }
         //nächste freie ID auslesen
-        $id = file_get_contents(CSV_PATH_ID_COUNTER);
+        $id = file_get_contents(CSV_PATH_ID_EMPLOYEE_COUNTER);
         $e = new Employee ($id, $firstName, $lastName, $departmentId);
         $employees = $e->getAllAsObjects();
         $employees[] = $e; // den neuen Employee den vorherigen Employees hinzufügen
         $e->storeInFile($employees);
         //die nächste freie id in die Datei schreiben
-        file_put_contents(CSV_PATH_ID_COUNTER, $id + 1);
+        file_put_contents(CSV_PATH_ID_EMPLOYEE_COUNTER, $id + 1);
         return new Employee();
     }
 }

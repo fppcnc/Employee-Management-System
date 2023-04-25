@@ -1,6 +1,7 @@
 <?php
 include 'config.php';
 include 'classes/Employee.php';
+include 'classes/Department.php';
 
 //echo '<pre>';
 //print_r($_REQUEST);
@@ -14,6 +15,8 @@ $id = $_REQUEST['id'] ?? '';
 $firstName = $_POST['firstName'] ?? '';
 $lastName = $_POST['lastName'] ?? '';
 $departmentId = $_POST['departmentId'] ?? '';
+$departmentName = $_POST['departmentName'] ?? '';
+$idDepartment = $_POST['idDepartment'] ?? '';
 
 // Übergabevariablen desinfizieren (sanitize)
 // kleiner Ausflug XSS: in input-text-Felder javascript schreiben z.B.
@@ -34,17 +37,24 @@ try {
             if ($area === 'employee') {
                 $e = new Employee();
                 $employee = $e->getEmployeeById($id);
+            } else if ($area === 'department') {
+                $d = new Department();
+                $department = $d->getDepartmentById($id);
             }
         case 'showCreate':
-            if ($area === 'employee') {
-                // showCreate und showUpdate haben gleiche Oberfläche
-            }
+//            if ($area === 'employee') {
+//                // showCreate und showUpdate haben gleiche Oberfläche
+//            } else if ($area === 'department')
             $view = 'showUpdateAndCreate';
             break;
         case 'delete':
             if ($area === 'employee') {
                 (new Employee())->delete($id);
                 $employees = (new Employee())->getAllAsObjects();
+                $view = 'showList';
+            } else if ($area === 'department'){
+                (new Department())->delete($id);
+                $departments = (new Department())->getAllAsObjects();
                 $view = 'showList';
             }
             break;
@@ -54,11 +64,24 @@ try {
                 $employee->store();
                 $employees = (new Employee())->getAllAsObjects();
                 $view = 'showList';
+            } elseif ($area === 'department'){
+                $department = new Department($id, $departmentName);
+                $department->store();
+                $departments = (new Department())->getAllAsObjects();
+                $view = 'showList';
             }
             break;
         case 'create':
             if ($area === 'employee') {
                 (new Employee())->createNewEmployee($firstName, $lastName, $departmentId);
+                $employees = (new Employee())->getAllAsObjects();
+                $view = 'showList';
+                break;
+            } else if ($area === 'department'){
+                (new Department())->createNewDepartment($departmentName);
+                $departments = (new Department())->getAllAsObjects();
+                $view = 'showList';
+                break;
             }
         default :
             // falls nicht erwarteter Wert für $action übergeben wird

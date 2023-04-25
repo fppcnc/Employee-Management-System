@@ -26,6 +26,9 @@
     <div class="table">
         <div class="row header">
             <div class="cell">
+                Id
+            </div>
+            <div class="cell">
                 Vorname
             </div>
             <div class="cell">
@@ -44,6 +47,9 @@
         <?php foreach ($employees as $employee) {
             ?>
             <div class="row">
+                <div class="cell" data-title="Id">
+                    <?php echo $employee->getId(); ?>
+                </div>
                 <div class="cell" data-title="Vorname">
                     <?php echo $employee->getFirstName(); ?>
                 </div>

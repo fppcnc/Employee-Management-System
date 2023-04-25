@@ -48,7 +48,7 @@
                     Nachname
                 </div>
                 <div class="cell">
-                    AbteilungID
+                    Abteilung
                 </div>
                 <div class="cell">
                     Aktion
@@ -76,9 +76,18 @@
                     <input type="text" class="Nachname" name="lastName" required
                            value="<?php if (isset($employee)) echo $employee->getLastName(); ?>">
                 </div>
-                <div class="cell" data-title="AbteilungId">
-                    <input type="number" class="AbteilungId" name="departmentId" required
-                           value="<?php if (isset($employee)) echo $employee->getDepartmentId(); ?>">
+                <div class="cell" data-title="AbteilungID">
+                    <!--                    <input type="number" class="AbteilungID" name="departmentId" required-->
+                    <!--                           value="--><?php //if (isset($employee)) echo $employee->getDepartmentId(); ?><!--">-->
+                    <select class="AbteilungID" name="departmentId" required>
+                        <?php
+                        $departments = [];
+                        $departments = (new Department())->getAllAsObjects();
+                        foreach ($departments as $department) {
+                            ?><option  value="<?php echo $department->getId(); ?> "> <?php echo $department->getId(). ' - '. $department->getDepartmentName() ?></option>
+                        <?php }?>
+
+                    </select>
                 </div>
                 <div class="cell" data-title="Speichern">
                     <button type="submit" class="Save">Speichern</button>
