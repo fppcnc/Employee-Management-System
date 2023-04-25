@@ -182,13 +182,21 @@ class Employee
         return new Employee();
     }
 
-
+    /**
+     * @return string
+     * @throws Exception
+     */
     public function printDepartmentNameFromEmployeeDepartmentId(): string
     {
-        //instance von Department Class
-        $department = new Department;
-        // get departmentName using the departmentId of the Employee
-        $departmentName = $department->getDepartmentNameById($this->departmentId);
-        return $departmentName;
+        // create an instance of class Department inside Employee
+        $departments = (new Department())->getAllAsObjects();
+        // compare EmpDepID with all DepID. when there´s a match, print it
+        foreach ($departments as $department) {
+            if ($this->getDepartmentId() === $department->getID()) {
+                return $department->getDepartmentName();
+            }
+        }
+        return 'Abteilung nicht gefunden';
     }
+
 }

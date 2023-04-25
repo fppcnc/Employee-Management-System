@@ -58,7 +58,7 @@
                     <?php echo $employee->getLastName(); ?>
                 </div>
                 <div class="cell" data-title="AbteilungId">
-                    <?php echo $employee->getDepartmentId() . $employee->printDepartmentNameFromEmployeeDepartmentId(); ?>
+                    <?php echo $employee->getDepartmentId() . ' - ' . $employee->printDepartmentNameFromEmployeeDepartmentId(); ?>
                 </div>
                 <div class="cell" data-title="Löschen">
                     <a href='index.php?action=delete&&area=employee&id=<?php echo $employee->getId(); ?>'>

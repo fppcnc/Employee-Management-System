@@ -148,17 +148,4 @@ class Department
         return new Department();
     }
 
-    /**
-     * @param $departmentId
-     * @return string
-     */
-    public function getDepartmentNameById($departmentId):string
-    {
-
-    if (isset($this->departments[$departmentId])){
-        return $this->departments[$departmentId];
-    }
-        return "Abteilung nicht gefunden";
-    }
-
 }
