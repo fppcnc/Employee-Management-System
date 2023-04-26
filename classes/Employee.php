@@ -90,7 +90,7 @@ class Employee
      * @param int $id
      * @return Employee
      */
-    public function getEmployeeById(int $id): Employee
+    public function getObjectById(int $id): Employee
     {
         $employees = $this->getAllAsObjects();
         $employee = new Employee();
@@ -163,7 +163,7 @@ class Employee
         }
     }
 
-    public function createNewEmployee(string $firstName, string $lastName, int $departmentId): Employee
+    public function createNewObject(string $firstName, string $lastName, int $departmentId): Employee
     {
         // wir brauchen eine (auto-increment-)Id für dieses Employee-Objekt
         // dazu schreiben wir immer die nächste id in eine static Variable in Klasse Employee
@@ -193,10 +193,15 @@ class Employee
         // compare EmpDepID with all DepID. when there´s a match, print it
         foreach ($departments as $department) {
             if ($this->getDepartmentId() === $department->getID()) {
-                return $department->getDepartmentName();
+                return $department->getName();
             }
         }
         return 'Abteilung nicht gefunden';
+    }
+
+    public function getDepartmentName():string
+    {
+        return((new Department())->getObjectById($this->departmentId))->$this->getDepartmentName();
     }
 
 }

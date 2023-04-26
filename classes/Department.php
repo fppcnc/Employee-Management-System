@@ -4,7 +4,7 @@ class Department
 
 {
     private int $idDepartment;
-    private string $departmentName;
+    private string $name;
 
     /**
      * @param int|null $id
@@ -14,7 +14,7 @@ class Department
     {
         if (isset($id) && isset($departmentName)) {
             $this->idDepartment = $id;
-            $this->departmentName = $departmentName;
+            $this->name = $departmentName;
         }
     }
 
@@ -30,9 +30,9 @@ class Department
     /**
      * @return string
      */
-    public function getDepartmentName(): string
+    public function getName(): string
     {
-        return $this->departmentName;
+        return $this->name;
     }
 
     /**
@@ -64,7 +64,7 @@ class Department
      * @throws Exception
      */
     public
-    function getDepartmentById(int $id): Department
+    function getObjectById(int $id): Department
     {
         $departments = $this->getAllAsObjects();
         $department = new Department();
@@ -134,7 +134,7 @@ class Department
      * @return Department
      * @throws Exception
      */
-    public function createNewDepartment(string $departmentName): Department
+    public function createNewObject(string $departmentName): Department
     {
         if (!is_file(CSV_PATH_ID_DEPARTMENT_COUNTER)) {
             file_put_contents(CSV_PATH_ID_DEPARTMENT_COUNTER, 1);

@@ -2,6 +2,7 @@
 include 'config.php';
 include 'classes/Employee.php';
 include 'classes/Department.php';
+include 'classes/HtmlHelper.php';
 
 //echo '<pre>';
 //print_r($_REQUEST);
@@ -36,10 +37,11 @@ try {
         case 'showUpdate':
             if ($area === 'employee') {
                 $e = new Employee();
-                $employee = $e->getEmployeeById($id);
+                $employee = $e->getObjectById($id);
+                $departments = (new Department())->getAllAsObjects();
             } else if ($area === 'department') {
                 $d = new Department();
-                $department = $d->getDepartmentById($id);
+                $department = $d->getObjectById($id);
             }
         case 'showCreate':
 //            if ($area === 'employee') {
@@ -73,12 +75,12 @@ try {
             break;
         case 'create':
             if ($area === 'employee') {
-                (new Employee())->createNewEmployee($firstName, $lastName, $departmentId);
+                (new Employee())->createNewObject($firstName, $lastName, $departmentId);
                 $employees = (new Employee())->getAllAsObjects();
                 $view = 'showList';
                 break;
             } else if ($area === 'department'){
-                (new Department())->createNewDepartment($departmentName);
+                (new Department())->createNewObject($departmentName);
                 $departments = (new Department())->getAllAsObjects();
                 $view = 'showList';
                 break;

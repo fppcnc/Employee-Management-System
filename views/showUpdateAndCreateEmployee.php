@@ -79,16 +79,10 @@
                 </div>
                 <div class="cell" data-title="AbteilungID">
                     <!--                    <input type="number" class="AbteilungID" name="departmentId" required-->
-                    <!--                           value="--><?php //if (isset($employee)) echo $employee->getDepartmentId(); ?><!--">-->
-                    <select class="AbteilungID" name="departmentId" required>
-                        <?php
-                        $departments = [];
-                        $departments = (new Department())->getAllAsObjects();
-                        foreach ($departments as $department) {
-                            ?><option  value="<?php echo $department->getId(); ?> "> <?php echo $department->getId(). ' - '. $department->getDepartmentName() ?></option>
-                        <?php }?>
-
-                    </select>
+                    <!--                           value="-->
+                    <?php //if (isset($employee)) echo $employee->getDepartmentId(); ?><!--">-->
+                    <?php $preselected = (isset($employee)) ? $employee->getDepartmentId() : null;
+                        echo HtmlHelper::buildSelectOption($departments, 'departmentId', $preselected) ?>
                 </div>
                 <div class="cell" data-title="Speichern">
                     <button type="submit" class="Save">Speichern</button>
