@@ -1,6 +1,6 @@
 <?php
 
-class Department
+class Department implements Saveable
 
 {
     private int $idDepartment;

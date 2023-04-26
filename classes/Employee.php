@@ -1,7 +1,7 @@
 <?php
 
 // 0p3
-class Employee
+class Employee implements Saveable
 {
     private int $id;
     private string $firstName;
