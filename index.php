@@ -39,7 +39,6 @@ try {
             if ($area === 'employee') {
                 $e = new Employee();
                 $employee = $e->getObjectById($id);
-                $departments = (new Department())->getAllAsObjects();
             } else if ($area === 'department') {
                 $d = new Department();
                 $department = $d->getObjectById($id);
@@ -48,6 +47,7 @@ try {
 //            if ($area === 'employee') {
 //                // showCreate und showUpdate haben gleiche Oberfläche
 //            } else if ($area === 'department')
+            $departments = (new Department())->getAllAsObjects();
             $view = 'showUpdateAndCreate';
             break;
         case 'delete':

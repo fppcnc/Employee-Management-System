@@ -56,6 +56,7 @@ class Department implements Saveable
             throw new Exception($d->getMessage() . ' ' . $d->getFile() . ' ' . $d->getCode() . ' ' . $d->getLine());
         }
         return $departments;
+
     }
 
     /**

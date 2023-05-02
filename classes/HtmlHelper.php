@@ -3,11 +3,10 @@
 class HtmlHelper
 {
     /**
-     * @param array $allObjects Objekte einer Klasse
-     * @param string $name Name der Übergabevariablen
-     * @param int $preselected PK des vorausgewählten Objekts
+     * @param array $allObjects
+     * @param string $name
+     * @param int|null $preselected
      * @return string
-     * $allObejct braucht id and name
      */
     public static function buildSelectOption(array $allObjects, string $name, ?int $preselected = null): string
     {
