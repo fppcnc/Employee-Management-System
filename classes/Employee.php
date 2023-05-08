@@ -59,30 +59,50 @@ class Employee implements Saveable
     /**
      * @return Employee[]
      */
-    public function getAllAsObjects(): array
+    public function getAllAsObjects(): array|null
     {
-        // try versucht den Block zwischen den Klammern auszuführen
-        // wenn dies misslingt, gibt es entweder einen Error oder eine Exception
-        // dieses muss mit einem catch-Teil aufgefangen werden
-        // dieser catch-Teil wiederum muss anschließend geschrieben werden
-        // und/oder in der aufrufenden Funktion
-        try {
-            if (!is_file(CSV_PATH_EMPLOYEE)) {
-                fopen(CSV_PATH_EMPLOYEE, 'w');
+        if (PERSISTENCY === 'file') {
+            // try versucht den Block zwischen den Klammern auszuführen
+            // wenn dies misslingt, gibt es entweder einen Error oder eine Exception
+            // dieses muss mit einem catch-Teil aufgefangen werden
+            // dieser catch-Teil wiederum muss anschließend geschrieben werden
+            // und/oder in der aufrufenden Funktion
+            try {
+                if (!is_file(CSV_PATH_EMPLOYEE)) {
+                    fopen(CSV_PATH_EMPLOYEE, 'w');
 //            die(CSV_PATH . 'existiert nicht');
-            }
+                }
 
-            $handle = fopen(CSV_PATH_EMPLOYEE, 'r');
-            $employees = [];
+                $handle = fopen(CSV_PATH_EMPLOYEE, 'r');
+                $employees = [];
 
-            while ($content = fgetcsv($handle, null, ',')) {
-                $employees[] = new Employee($content[0], $content[1], $content[2], $content[3]);
+                while ($content = fgetcsv($handle, null, ',')) {
+                    $employees[] = new Employee($content[0], $content[1], $content[2], $content[3]);
+                }
+                fclose($handle);
+            } catch (Error $e) {
+                throw new Exception($e->getMessage() . ' ' . $e->getFile() . ' ' . $e->getCode() . ' ' . $e->getLine());
             }
-            fclose($handle);
-        } catch (Error $e) {
-            throw new Exception($e->getMessage() . ' ' . $e->getFile() . ' ' . $e->getCode() . ' ' . $e->getLine());
+            return $employees;
+        } else {
+            try {
+                $dbh = new PDO (DB_DNS, DB_USER, DB_PASSWD);
+                $sql = 'SELECT * FROM employee';
+                $result = $dbh->query($sql);
+                $employees=[];
+                while ($row = $result->fetchObject('Employee')) {
+                    $employees[] = $row;
+                }
+                $dbh = null;
+
+            } catch (PDOException $e) {
+//                print "Error!: " . $e->getMessage() . "<br/>";
+//                die();
+                throw new Exception($e->getMessage() . ' ' . $e->getFile() . ' ' . $e->getCode() . ' ' . $e->getLine());
+
+            }
+            return $employees;
         }
-        return $employees;
     }
 
 
@@ -199,9 +219,9 @@ class Employee implements Saveable
         return 'Abteilung nicht gefunden';
     }
 
-    public function getDepartmentName():string
+    public function getDepartmentName(): string
     {
-        return((new Department())->getObjectById($this->departmentId))->$this->getDepartmentName();
+        return ((new Department())->getObjectById($this->departmentId))->$this->getDepartmentName();
     }
 
 }
