@@ -3,18 +3,18 @@
 class Department implements Saveable
 
 {
-    private int $idDepartment;
+    private int $id;
     private string $name;
 
     /**
      * @param int|null $id
-     * @param string|null $departmentName
+     * @param string|null $name
      */
-    public function __construct(int|null $id = null, string|null $departmentName = null)
+    public function __construct(int|null $id = null, string|null $name = null)
     {
-        if (isset($id) && isset($departmentName)) {
-            $this->idDepartment = $id;
-            $this->name = $departmentName;
+        if (isset($id) && isset($name)) {
+            $this->id = $id;
+            $this->name = $name;
         }
     }
 
@@ -24,7 +24,7 @@ class Department implements Saveable
      */
     public function getId(): int
     {
-        return $this->idDepartment;
+        return $this->id;
     }
 
     /**
@@ -42,18 +42,34 @@ class Department implements Saveable
     public
     function getAllAsObjects(): array
     {
-        try {
-            if (!is_file(CSV_PATH_DEPARTMENT)) {
-                fopen(CSV_PATH_DEPARTMENT, 'w');
+        if (PERSISTENCY === 'file') {
+            try {
+                if (!is_file(CSV_PATH_DEPARTMENT)) {
+                    fopen(CSV_PATH_DEPARTMENT, 'w');
+                }
+                $handle = fopen(CSV_PATH_DEPARTMENT, 'r');
+                $departments = [];
+                while ($content = fgetcsv($handle, null, ',')) {
+                    $departments[] = new Department($content[0], $content[1]);
+                }
+                fclose($handle);
+            } catch (Error $d) {
+                throw new Exception($d->getMessage() . ' ' . $d->getFile() . ' ' . $d->getCode() . ' ' . $d->getLine());
             }
-            $handle = fopen(CSV_PATH_DEPARTMENT, 'r');
-            $departments = [];
-            while ($content = fgetcsv($handle, null, ',')) {
-                $departments[] = new Department($content[0], $content[1]);
+        } else {
+            try {
+                $dbh = new PDO (DB_DNS, DB_USER, DB_PASSWD);
+                $sql = 'SELECT * FROM departments';
+                $result = $dbh->query($sql);
+                $departments = [];
+                while ($row = $result->fetchObject('Department')) {
+                    $departments[] = $row;
+                }
+
+                $dbh = null;
+            } catch (PDOException $s) {
+                throw new Exception($e->getMessage() . ' ' . $e->getFile() . ' ' . $e->getCode() . ' ' . $e->getLine());
             }
-            fclose($handle);
-        } catch (Error $d) {
-            throw new Exception($d->getMessage() . ' ' . $d->getFile() . ' ' . $d->getCode() . ' ' . $d->getLine());
         }
         return $departments;
 
