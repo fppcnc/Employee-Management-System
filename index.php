@@ -17,7 +17,7 @@ $id = $_REQUEST['id'] ?? '';
 $firstName = $_POST['firstName'] ?? '';
 $lastName = $_POST['lastName'] ?? '';
 $departmentId = $_POST['departmentId'] ?? '';
-$departmentName = $_POST['departmentName'] ?? '';
+$name = $_POST['departmentName'] ?? '';
 $idDepartment = $_POST['idDepartment'] ?? '';
 
 // Übergabevariablen desinfizieren (sanitize)
@@ -68,7 +68,7 @@ try {
                 $employees = (new Employee())->getAllAsObjects();
                 $view = 'showList';
             } elseif ($area === 'department'){
-                $department = new Department($id, $departmentName);
+                $department = new Department($id, $name);
                 $department->updateObject();
                 $departments = (new Department())->getAllAsObjects();
                 $view = 'showList';
@@ -81,7 +81,7 @@ try {
                 $view = 'showList';
                 break;
             } else if ($area === 'department'){
-                (new Department())->createNewObject($departmentName);
+                (new Department())->createNewObject($name);
                 $departments = (new Department())->getAllAsObjects();
                 $view = 'showList';
                 break;

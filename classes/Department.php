@@ -92,19 +92,19 @@ class Department implements Saveable
                 }
             }
         } else {
-                try {
-                    $dbh = new PDO(DB_DNS, DB_USER, DB_PASSWD);
-                    $sql = "SELECT * FROM departments WHERE id=:id";
-                    $stmt = $dbh->query($sql);
-                    $stmt->bindParam(':id', $id, PDO::PARAM_INT);
-                    $stmt->execute();
-                    $department = $stmt->fetchObject('Department');
+            try {
+                $dbh = new PDO(DB_DNS, DB_USER, DB_PASSWD);
+                $sql = "SELECT * FROM departments WHERE id=:id";
+                $stmt = $dbh->query($sql);
+                $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+                $stmt->execute();
+                $department = $stmt->fetchObject('Department');
 
-                    $dbh = null;
-                } catch (PDOException $d) {
-                    throw new Exception($d->getMessage() . ' ' . $d->getFile() . ' ' . $d->getCode() . ' ' . $d->getLine());
-                }
+                $dbh = null;
+            } catch (PDOException $d) {
+                throw new Exception($d->getMessage() . ' ' . $d->getFile() . ' ' . $d->getCode() . ' ' . $d->getLine());
             }
+        }
         return $department;
     }
 
@@ -114,14 +114,30 @@ class Department implements Saveable
      */
     public function updateObject(): void
     {
-        $departments = $this->getAllAsObjects();
-        foreach ($departments as $key => $department) {
-            if ($department->getId() === $this->id) {
-                $departments[$key] = $this;
-                break;
+        if (PERSISTENCY === 'file') {
+            $departments = $this->getAllAsObjects();
+            foreach ($departments as $key => $department) {
+                if ($department->getId() === $this->id) {
+                    $departments[$key] = $this;
+                    break;
+                }
+            }
+            $this->storeInFile($departments);
+        } else {
+            try {
+                $dbh = new PDO (DB_DNS, DB_USER, DB_PASSWD);
+                $sql = "UPDATE departments SET name=:name WHERE id=:id";
+                $stmt = $dbh->prepare($sql);
+                $stmt->bindParam(':id', $this->id, PDO::PARAM_INT);
+                $stmt->bindParam(':name', $this->name, PDO::PARAM_STR);
+                $stmt->execute();
+                $id = $dbh->lastInsertId();
+                $dbh = null;
+            } catch
+            (PDOException $d) {
+                throw new Exception($d->getMessage() . ' ' . $d->getFile() . ' ' . $d->getCode() . ' ' . $d->getLine());
             }
         }
-        $this->storeInFile($departments);
     }
 
     /**
@@ -152,6 +168,7 @@ class Department implements Saveable
      */
     public function delete(int $id): void
     {
+        if (PERSISTENCY === 'file') {
         $departments = $this->getAllAsObjects();
         foreach ($departments as $key => $department) {
             if ($department->getId() === $id) {
@@ -159,20 +176,37 @@ class Department implements Saveable
             }
         }
         $this->storeInFile($departments);
-    }
+    } else {
+        try {
+            $dbh = new PDO(DB_DNS, DB_USER, DB_PASSWD);
+            $sql = "DELETE FROM departments WHERE id=:id";
+            $stmt = $dbh->prepare($sql);
+            $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+            $stmt->execute();
+            $department = $stmt->fetchObject('Employee');
+            $dbh = null;
+        } catch (PDOException $d) {
+            throw new Exception($d->getMessage() . ' ' . $d->getFile() . ' ' . $d->getCode() . ' ' . $d->getLine());
+
+
+        }
+
+}
+}
 
     /**
-     * @param string $departmentName
+     * @param string $name
+     *
      * @return Department
      * @throws Exception
      */
-    public function createNewObject(string $departmentName): Department
+    public function createNewObject(string $name): Department
     {
         if (!is_file(CSV_PATH_ID_DEPARTMENT_COUNTER)) {
             file_put_contents(CSV_PATH_ID_DEPARTMENT_COUNTER, 1);
         }
         $id = file_get_contents(CSV_PATH_ID_DEPARTMENT_COUNTER);
-        $d = new Department($id, $departmentName);
+        $d = new Department($id, $name);
         $departments = $d->getAllAsObjects();
         $departments[] = $d;
         $d->storeInFile($departments);
