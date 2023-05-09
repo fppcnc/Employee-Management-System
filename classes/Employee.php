@@ -72,11 +72,9 @@ class Employee implements Saveable
                     fopen(CSV_PATH_EMPLOYEE, 'w');
 //            die(CSV_PATH . 'existiert nicht');
                 }
-
                 $handle = fopen(CSV_PATH_EMPLOYEE, 'r');
                 $employees = [];
-
-                while ($content = fgetcsv($handle, null, ',')) {
+                while ($content = fgetcsv($handle)) {
                     $employees[] = new Employee($content[0], $content[1], $content[2], $content[3]);
                 }
                 fclose($handle);
@@ -89,12 +87,11 @@ class Employee implements Saveable
                 $dbh = new PDO (DB_DNS, DB_USER, DB_PASSWD);
                 $sql = 'SELECT * FROM employee';
                 $result = $dbh->query($sql);
-                $employees=[];
+                $employees = [];
                 while ($row = $result->fetchObject('Employee')) {
                     $employees[] = $row;
                 }
                 $dbh = null;
-
             } catch (PDOException $e) {
 //                print "Error!: " . $e->getMessage() . "<br/>";
 //                die();
