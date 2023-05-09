@@ -39,7 +39,7 @@
                     <?php echo $department->getId(); ?>
                 </div>
                 <div class="cell" data-title="Abteilungsname">
-S                    <?php echo $department->getName(); ?>
+                    <?php echo $department->getName(); ?>
                 </div>
                 <div class="cell" data-title="Löschen">
                     <a href='index.php?action=delete&&area=department&id=<?php echo $department->getId(); ?>'>
