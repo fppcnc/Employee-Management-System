@@ -187,17 +187,18 @@ class Employee implements Saveable
      */
     public function store(): void
     {
-        // alle employees laden
-        $employees = $this->getAllAsObjects();
-        foreach ($employees as $key => $employee) {
-            if ($employee->getId() === $this->id) {
-                // zu ändernden Employee im array $employees ändern
-                $employees[$key] = $this;
-                break;
+            // alle employees laden
+            $employees = $this->getAllAsObjects();
+            foreach ($employees as $key => $employee) {
+                if ($employee->getId() === $this->id) {
+                    // zu ändernden Employee im array $employees ändern
+                    $employees[$key] = $this;
+                    break;
+                }
             }
+            $this->storeInFile($employees);
         }
-        $this->storeInFile($employees);
-    }
+
 
     /**
      * @param array $employees
@@ -229,6 +230,7 @@ class Employee implements Saveable
 
     public function createNewObject(string $firstName, string $lastName, int $departmentId): Employee
     {
+        if (PERSISTENCY === 'file') {
         // wir brauchen eine (auto-increment-)Id für dieses Employee-Objekt
         // dazu schreiben wir immer die nächste id in eine static Variable in Klasse Employee
 
@@ -244,6 +246,22 @@ class Employee implements Saveable
         //die nächste freie id in die Datei schreiben
         file_put_contents(CSV_PATH_ID_EMPLOYEE_COUNTER, $id + 1);
         return new Employee();
+    } else {
+        try {
+            $dbh = new PDO (DB_DNS, DB_USER, DB_PASSWD);
+            $sql = "INSERT INTO employee (id, firstName, lastName, departmentId) VALUES (NULL, :firstName, :lastName, :departmentId)";
+            $stmt = $dbh->prepare($sql);
+            $stmt->bindParam(':firstName', $firstName, PDO::PARAM_STR);
+            $stmt->bindParam(':lastName', $lastName, PDO::PARAM_STR);
+            $stmt->bindParam(':departmentId', $departmentId, PDO::PARAM_INT);
+            $stmt->execute();
+            $id= $dbh->lastInsertId();
+            $dbh = null;
+        } catch (PDOException $e) {
+            throw new Exception($e->getMessage() . ' ' . $e->getFile() . ' ' . $e->getCode() . ' ' . $e->getLine());
+        }
+    }
+        return new Employee($id, $firstName, $lastName, $departmentId);
     }
 
     /**
