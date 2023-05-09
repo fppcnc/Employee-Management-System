@@ -187,6 +187,7 @@ class Employee implements Saveable
      */
     public function updateObject(): void
     {
+        if (PERSISTENCY === 'file') {
             // alle employees laden
             $employees = $this->getAllAsObjects();
             foreach ($employees as $key => $employee) {
@@ -197,7 +198,24 @@ class Employee implements Saveable
                 }
             }
             $this->storeInFile($employees);
+        } else {
+
+                try {
+                    $dbh = new PDO (DB_DNS, DB_USER, DB_PASSWD);
+                    $sql = "UPDATE employee SET firstName=:firstName, lastName=:lastName, departmentId=:departmentId WHERE id=:id";
+                    $stmt = $dbh->prepare($sql);
+                    $stmt->bindParam(':id', $this->id, PDO::PARAM_INT);
+                    $stmt->bindParam(':firstName', $this->firstName, PDO::PARAM_STR);
+                    $stmt->bindParam(':lastName', $this->lastName, PDO::PARAM_STR);
+                    $stmt->bindParam(':departmentId', $this->departmentId, PDO::PARAM_INT);
+                    $stmt->execute();
+                    $id= $dbh->lastInsertId();
+                    $dbh = null;
+                } catch (PDOException $e) {
+                    throw new Exception($e->getMessage() . ' ' . $e->getFile() . ' ' . $e->getCode() . ' ' . $e->getLine());
+                }
         }
+    }
 
 
     /**
