@@ -59,7 +59,7 @@ class Department implements Saveable
         } else {
             try {
                 $dbh = new PDO (DB_DNS, DB_USER, DB_PASSWD);
-                $sql = 'SELECT * FROM departments';
+                $sql = "SELECT * FROM departments";
                 $result = $dbh->query($sql);
                 $departments = [];
                 while ($row = $result->fetchObject('Department')) {
@@ -67,8 +67,8 @@ class Department implements Saveable
                 }
 
                 $dbh = null;
-            } catch (PDOException $s) {
-                throw new Exception($e->getMessage() . ' ' . $e->getFile() . ' ' . $e->getCode() . ' ' . $e->getLine());
+            } catch (PDOException $d) {
+                throw new Exception($d->getMessage() . ' ' . $d->getFile() . ' ' . $d->getCode() . ' ' . $d->getLine());
             }
         }
         return $departments;
@@ -83,13 +83,28 @@ class Department implements Saveable
     public
     function getObjectById(int $id): Department
     {
-        $departments = $this->getAllAsObjects();
-        $department = new Department();
-        foreach ($departments as $d) {
-            if ($d->getId() === $id) {
-                $department = $d;
+        if (PERSISTENCY === 'file') {
+            $departments = $this->getAllAsObjects();
+            $department = new Department();
+            foreach ($departments as $d) {
+                if ($d->getId() === $id) {
+                    $department = $d;
+                }
             }
-        }
+        } else {
+                try {
+                    $dbh = new PDO(DB_DNS, DB_USER, DB_PASSWD);
+                    $sql = "SELECT * FROM departments WHERE id=:id";
+                    $stmt = $dbh->query($sql);
+                    $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+                    $stmt->execute();
+                    $department = $stmt->fetchObject('Department');
+
+                    $dbh = null;
+                } catch (PDOException $d) {
+                    throw new Exception($d->getMessage() . ' ' . $d->getFile() . ' ' . $d->getCode() . ' ' . $d->getLine());
+                }
+            }
         return $department;
     }
 
