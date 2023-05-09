@@ -81,7 +81,7 @@ class Department implements Saveable
      * @return void
      * @throws Exception
      */
-    public function store(): void
+    public function updateObject(): void
     {
         $departments = $this->getAllAsObjects();
         foreach ($departments as $key => $department) {

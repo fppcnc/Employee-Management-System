@@ -64,12 +64,12 @@ try {
         case 'update':
             if ($area === 'employee') {
                 $employee = new Employee($id, $firstName, $lastName, $departmentId);
-                $employee->store();
+                $employee->updateObject();
                 $employees = (new Employee())->getAllAsObjects();
                 $view = 'showList';
             } elseif ($area === 'department'){
                 $department = new Department($id, $departmentName);
-                $department->store();
+                $department->updateObject();
                 $departments = (new Department())->getAllAsObjects();
                 $view = 'showList';
             }
