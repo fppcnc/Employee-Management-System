@@ -57,7 +57,8 @@ class Employee implements Saveable
     }
 
     /**
-     * @return Employee[]
+     * @return array|null
+     * @throws Exception
      */
     public function getAllAsObjects(): array|null
     {
@@ -105,10 +106,12 @@ class Employee implements Saveable
 
     /**
      * @param int $id
-     * @return Employee
+     * @return Employee|false
+     * @throws Exception
      */
-    public function getObjectById(int $id): Employee
+    public function getObjectById(int $id): Employee|false
     {
+        if (PERSISTENCY === 'file') {
         $employees = $this->getAllAsObjects();
         $employee = new Employee();
         foreach ($employees as $e) {
@@ -117,27 +120,70 @@ class Employee implements Saveable
             }
         }
         return $employee;
+    } else {
+            try {
+                $dbh = new PDO (DB_DNS, DB_USER, DB_PASSWD);
+
+//                Version ohne Prepared Statement
+//                $sql = "SELECT * FROM employee WHERE id=$id";
+//                $result = $dbh->query($sql);
+//                $employee = $result->fetchObject('Employee');
+
+//                Version mit Prepared Statement
+//                nur variable Werte werden mit :... gekennzeichnet
+                $sql = "SELECT * FROM employee WHERE id=:id";
+//                sql wird an die SQL-Datenbank geschickt und es wird eine Syntaxüberprüfung durchgeführt
+                $stmt = $dbh->prepare($sql);
+//                die Werte für die Platzhalter :... werden auf Datentyp Überprüft und dann in das sql-Statement eingesetzt
+                $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+//                das vollständige statement wird in der Datenbank ausgeführt
+                $stmt->execute();
+//                die zurückgegebenen Daten werden ausgelassen
+                $employee = $stmt->fetchObject('Employee');
+
+                $dbh = null;
+            } catch (PDOException $e) {
+                throw new Exception($e->getMessage() . ' ' . $e->getFile() . ' ' . $e->getCode() . ' ' . $e->getLine());
+            }
+            return $employee;
+        }
     }
 
     /**
      * @param int $id
      * @return void
+     * @throws Exception
      */
     public function delete(int $id): void
     {
-        //alle employees laden
-        $employees = $this->getAllAsObjects();
-        foreach ($employees as $key => $employee) {
-            if ($employee->getId() === $id) {
-                // zu löschenden Employee aus array $employees entfernen
-                unset($employees[$key]);
+        if (PERSISTENCY === 'file') {
+            //alle employees laden
+            $employees = $this->getAllAsObjects();
+            foreach ($employees as $key => $employee) {
+                if ($employee->getId() === $id) {
+                    // zu löschenden Employee aus array $employees entfernen
+                    unset($employees[$key]);
+                }
+            }
+            $this->storeInFile($employees);
+        } else {
+            try {
+                $dbh = new PDO (DB_DNS, DB_USER, DB_PASSWD);
+                $sql = "DELETE FROM employee WHERE id=:id";
+                $stmt = $dbh->prepare($sql);
+                $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+                $stmt->execute();
+                $employee = $stmt->fetchObject('Employee');
+                $dbh = null;
+            } catch (PDOException $e) {
+                throw new Exception($e->getMessage() . ' ' . $e->getFile() . ' ' . $e->getCode() . ' ' . $e->getLine());
             }
         }
-        $this->storeInFile($employees);
     }
 
     /**
      * @return void
+     * @throws Exception
      */
     public function store(): void
     {
@@ -156,6 +202,7 @@ class Employee implements Saveable
     /**
      * @param array $employees
      * @return void
+     * @throws Exception
      */
     private function storeInFile(array $employees): void
     {

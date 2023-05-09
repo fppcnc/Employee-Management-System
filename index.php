@@ -94,6 +94,7 @@ try {
     }
 } catch (Exception $e) {
     $view = 'error';
+    $area = '';
 }
 
 
