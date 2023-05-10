@@ -36,7 +36,11 @@ try {
                     $employees = (new EmployeeFile())->getAllAsObjects();
                 }
             } else if ($area === 'department') {
-                $departments = (new Department())->getAllAsObjects();
+                if (PERSISTENCY === 'db') {
+                    $departments = (new DepartmentDb())->getAllAsObjects();
+                } else {
+                    $departments = (new DepartmentFile())->getAllAsObjects();
+                }
             }
             $view = $action;
             break;
@@ -49,14 +53,22 @@ try {
                 }
                 $employee = $e->getObjectById($id);
             } else if ($area === 'department') {
-                $d = new Department();
+                if (PERSISTENCY === 'db') {
+                    $d = new DepartmentDb();
+                } else {
+                    $d = new DepartmentFile();
+                }
                 $department = $d->getObjectById($id);
             }
         case 'showCreate':
 //            if ($area === 'employee') {
 //                // showCreate und showUpdate haben gleiche Oberfläche
 //            } else if ($area === 'department')
-            $departments = (new Department())->getAllAsObjects();
+            if (PERSISTENCY === 'db') {
+                $departments = (new DepartmentDb())->getAllAsObjects();
+            } else {
+                $departments = (new DepartmentFile())->getAllAsObjects();
+            }
             $view = 'showUpdateAndCreate';
             break;
         case 'delete':
@@ -70,8 +82,12 @@ try {
                 }
                 $view = 'showList';
             } else if ($area === 'department') {
-                (new Department())->delete($id);
-                $departments = (new Department())->getAllAsObjects();
+                if (PERSISTENCY === 'db') {
+                    (new DepartmentDb())->delete($id);
+                    $departments = (new DepartmentDb())->getAllAsObjects();
+                } else {
+                    (new DepartmentFile())->delete($id);
+                    $departments = (new DepartmentFile())->getAllAsObjects();                }
                 $view = 'showList';
             }
             break;
@@ -88,9 +104,15 @@ try {
                 }
                 $view = 'showList';
             } elseif ($area === 'department') {
-                $department = new Department($id, $name);
-                $department->updateObject();
-                $departments = (new Department())->getAllAsObjects();
+                if (PERSISTENCY === 'db') {
+                    $department = new DepartmentDb($id, $name);
+                    $department->updateObject();
+                    $departments = (new DepartmentDb())->getAllAsObjects();
+                } else {
+                    $department = new DepartmentFile($id, $name);
+                    $department->updateObject();
+                    $departments = (new DepartmentFile())->getAllAsObjects();
+                }
                 $view = 'showList';
             }
             break;
@@ -106,8 +128,13 @@ try {
                 $view = 'showList';
                 break;
             } else if ($area === 'department') {
-                (new Department())->createNewObject($name);
-                $departments = (new Department())->getAllAsObjects();
+                if (PERSISTENCY === 'db') {
+                    (new DepartmentDb())->createNewObject($name);
+                    $departments = (new DepartmentDb())->getAllAsObjects();
+                } else {
+                    (new DepartmentFile())->createNewObject($name);
+                    $departments = (new DepartmentFile())->getAllAsObjects();
+                }
                 $view = 'showList';
                 break;
             }

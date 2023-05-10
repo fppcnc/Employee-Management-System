@@ -142,7 +142,7 @@ class EmployeeFile extends Employee
     public function printDepartmentNameFromEmployeeDepartmentId(): string
     {
         // create an instance of class Department inside Employee
-        $departments = (new Department())->getAllAsObjects();
+        $departments = (new DepartmentFile())->getAllAsObjects();
         // compare EmpDepID with all DepID. when there´s a match, print it
         foreach ($departments as $department) {
             if ($this->getDepartmentId() === $department->getID()) {
