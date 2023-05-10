@@ -17,7 +17,7 @@ $id = $_REQUEST['id'] ?? '';
 $firstName = $_POST['firstName'] ?? '';
 $lastName = $_POST['lastName'] ?? '';
 $departmentId = $_POST['departmentId'] ?? '';
-$name = $_POST['departmentName'] ?? '';
+$name = $_POST['name'] ?? '';
 $idDepartment = $_POST['idDepartment'] ?? '';
 
 // Übergabevariablen desinfizieren (sanitize)

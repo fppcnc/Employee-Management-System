@@ -128,9 +128,6 @@ class Department implements Saveable
             try {
                 $dbh = new PDO (DB_DNS, DB_USER, DB_PASSWD);
                 $sql = "UPDATE departments SET name=:name WHERE id=:id";
-                echo $sql;
-                $this->id = 8;
-                $this->name = 'Asvbfb';
                 $stmt = $dbh->prepare($sql);
                 $stmt->bindParam(':id', $this->id, PDO::PARAM_INT);
                 $stmt->bindParam(':name', $this->name, PDO::PARAM_STR);
