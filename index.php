@@ -33,7 +33,7 @@ try {
                 if (PERSISTENCY === 'db') {
                     $employees = (new EmployeeDb())->getAllAsObjects();
                 } else {
-                    $employees = (new Employee())->getAllAsObjects();
+                    $employees = (new EmployeeFile())->getAllAsObjects();
                 }
             } else if ($area === 'department'){
                 $departments = (new Department())->getAllAsObjects();
@@ -45,7 +45,7 @@ try {
                 if (PERSISTENCY === 'db') {
                     $e = new EmployeeDb();
                 } else {
-                    $e = new Employee();
+                    $e = new EmployeeFile();
                 }
                 $employee = $e->getObjectById($id);
             } else if ($area === 'department') {
@@ -65,8 +65,8 @@ try {
                     (new EmployeeDb())->delete($id);
                     $employees = (new EmployeeDb())->getAllAsObjects();
                 } else {
-                    (new Employee())->delete($id);
-                    $employees = (new Employee())->getAllAsObjects();
+                    (new EmployeeFile())->delete($id);
+                    $employees = (new EmployeeFile())->getAllAsObjects();
                 }
                 $view = 'showList';
             } else if ($area === 'department'){
@@ -82,9 +82,9 @@ try {
                     $employee->updateObject();
                     $employees = (new EmployeeDb())->getAllAsObjects();
                 } else {
-                    $employee = new Employee($id, $firstName, $lastName, $departmentId);
+                    $employee = new EmployeeFile($id, $firstName, $lastName, $departmentId);
                     $employee->updateObject();
-                    $employees = (new Employee())->getAllAsObjects();
+                    $employees = (new EmployeeFile())->getAllAsObjects();
                 }
                 $view = 'showList';
             } elseif ($area === 'department'){
@@ -100,8 +100,8 @@ try {
                     (new EmployeeDb())->createNewObject($firstName, $lastName, $departmentId);
                     $employees = (new EmployeeDb())->getAllAsObjects();
                 } else {
-                    (new Employee())->createNewObject($firstName, $lastName, $departmentId);
-                    $employees = (new Employee())->getAllAsObjects();
+                    (new EmployeeFile())->createNewObject($firstName, $lastName, $departmentId);
+                    $employees = (new EmployeeFile())->getAllAsObjects();
                 }
                 $view = 'showList';
                 break;
