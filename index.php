@@ -30,7 +30,11 @@ try {
             //(new Employee()) erstellt ein unbenanntes Employeeobjekt, welches direkt benutzt wird
             // um Methoden  aufrufen zu können, vergl. mit showUpdate
             if ($area === 'employee') {
-                $employees = (new Employee())->getAllAsObjects();
+                if (PERSISTENCY === 'db') {
+                    $employees = (new EmployeeDb())->getAllAsObjects();
+                } else {
+                    $employees = (new Employee())->getAllAsObjects();
+                }
             } else if ($area === 'department'){
                 $departments = (new Department())->getAllAsObjects();
             }
@@ -38,7 +42,11 @@ try {
             break;
         case 'showUpdate':
             if ($area === 'employee') {
-                $e = new Employee();
+                if (PERSISTENCY === 'db') {
+                    $e = new EmployeeDb();
+                } else {
+                    $e = new Employee();
+                }
                 $employee = $e->getObjectById($id);
             } else if ($area === 'department') {
                 $d = new Department();
@@ -53,8 +61,13 @@ try {
             break;
         case 'delete':
             if ($area === 'employee') {
-                (new Employee())->delete($id);
-                $employees = (new Employee())->getAllAsObjects();
+                if (PERSISTENCY === 'db') {
+                    (new EmployeeDb())->delete($id);
+                    $employees = (new EmployeeDb())->getAllAsObjects();
+                } else {
+                    (new Employee())->delete($id);
+                    $employees = (new Employee())->getAllAsObjects();
+                }
                 $view = 'showList';
             } else if ($area === 'department'){
                 (new Department())->delete($id);
@@ -64,9 +77,15 @@ try {
             break;
         case 'update':
             if ($area === 'employee') {
-                $employee = new Employee($id, $firstName, $lastName, $departmentId);
-                $employee->updateObject();
-                $employees = (new Employee())->getAllAsObjects();
+                if (PERSISTENCY === 'db') {
+                    $employee = new EmployeeDb($id, $firstName, $lastName, $departmentId);
+                    $employee->updateObject();
+                    $employees = (new EmployeeDb())->getAllAsObjects();
+                } else {
+                    $employee = new Employee($id, $firstName, $lastName, $departmentId);
+                    $employee->updateObject();
+                    $employees = (new Employee())->getAllAsObjects();
+                }
                 $view = 'showList';
             } elseif ($area === 'department'){
                 $department = new Department($id, $name);
@@ -77,8 +96,13 @@ try {
             break;
         case 'create':
             if ($area === 'employee') {
-                (new Employee())->createNewObject($firstName, $lastName, $departmentId);
-                $employees = (new Employee())->getAllAsObjects();
+                if (PERSISTENCY === 'db') {
+                    (new EmployeeDb())->createNewObject($firstName, $lastName, $departmentId);
+                    $employees = (new EmployeeDb())->getAllAsObjects();
+                } else {
+                    (new Employee())->createNewObject($firstName, $lastName, $departmentId);
+                    $employees = (new Employee())->getAllAsObjects();
+                }
                 $view = 'showList';
                 break;
             } else if ($area === 'department'){
@@ -89,7 +113,6 @@ try {
             }
         default :
             // falls nicht erwarteter Wert für $action übergeben wird
-            $employees = (new Employee())->getAllAsObjects();
             $view = 'showList';
             break;
     }
