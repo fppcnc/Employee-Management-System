@@ -184,7 +184,7 @@ class EmployeeFile implements Saveable
         $e->storeInFile($employees);
         //die nächste freie id in die Datei schreiben
         file_put_contents(CSV_PATH_ID_EMPLOYEE_COUNTER, $id + 1);
-        return new EmployeeFile();
+        return new Employee();
     }
 
     /**
