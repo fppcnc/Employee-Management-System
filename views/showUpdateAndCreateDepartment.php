@@ -65,7 +65,7 @@
                 </div>
                 <div class="cell" data-title="Abteilungsname">
                     <input type="text" class="Abteilungsname" name="name" required
-                           value="<?php if (isset($department)) echo $department->getDepartmentName(); ?>">
+                           value="<?php if (isset($department)) echo $department->getName(); ?>">
                 </div>
                 <div class="cell" data-title="Speichern">
                     <button type="submit" class="Save">Speichern</button>
