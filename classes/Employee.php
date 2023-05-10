@@ -266,16 +266,16 @@ class Employee implements Saveable
             try {
                 $dbh = new PDO (DB_DNS, DB_USER, DB_PASSWD);
 //                Version mit prepared statement und benannten Platzhaltern
-//                $sql = "INSERT INTO employee (id, firstName, lastName, departmentId) VALUES (NULL, :firstName, :lastName, :departmentId)";
+                $sql = "INSERT INTO employee (id, firstName, lastName, departmentId) VALUES (NULL, :firstName, :lastName, :departmentId)";
 //                Version mit prepared statement und aufgezählten Platzhaltern
-                $sql = "INSERT INTO employee(id, firstName, lastName, departmentId) VALUES (NULL, ?, ?, ?)"
+//                $sql = "INSERT INTO employee(id, firstName, lastName, departmentId) VALUES (NULL, ?, ?, ?)";
                 $stmt = $dbh->prepare($sql);
-//                $stmt->bindParam(':firstName', $firstName, PDO::PARAM_STR);
-//                $stmt->bindParam(':lastName', $lastName, PDO::PARAM_STR);
-//                $stmt->bindParam(':departmentId', $departmentId, PDO::PARAM_INT);
-//                $stmt->execute();
+                $stmt->bindParam(':firstName', $firstName, PDO::PARAM_STR);
+                $stmt->bindParam(':lastName', $lastName, PDO::PARAM_STR);
+                $stmt->bindParam(':departmentId', $departmentId, PDO::PARAM_INT);
+                $stmt->execute();
 //                Version mit platzhaltern
-                $stmt->execute([$firstName, $lastName, $departmentId]);
+//                $stmt->execute([$firstName, $lastName, $departmentId]);
                 $id = $dbh->lastInsertId();
                 $dbh = null;
             } catch (PDOException $e) {
@@ -304,7 +304,7 @@ class Employee implements Saveable
 
     public function getDepartmentName(): string
     {
-        return ((new Department())->getObjectById($this->departmentId))->$this->getDepartmentName();
+        return ((new Department())->getObjectById($this->departmentId))->$this->getName();
     }
 
 }

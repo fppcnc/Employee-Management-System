@@ -1,5 +1,10 @@
 <?php
 include 'config.php';
+//lädt Klassen, die benötigt werden, automatisch aus dem Ordner classes nach
+//spl_autoload_register(function ($class) {
+//    include 'classes/' . '.php';
+//});
+
 include 'classes/Saveable.php';
 include 'classes/Employee.php';
 include 'classes/Department.php';
