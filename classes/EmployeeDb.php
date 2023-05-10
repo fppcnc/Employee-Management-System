@@ -3,7 +3,7 @@
 class EmployeeDb extends Employee
 {
     /**
-     * @return array|null
+     * @return EmployeeDb[]
      * @throws Exception
      */
     public function getAllAsObjects(): array|null
@@ -29,7 +29,7 @@ class EmployeeDb extends Employee
 
     /**
      * @param int $id
-     * @return Employee|false
+     * @return EmployeeDb|false
      * @throws Exception
      */
     public function getObjectById(int $id): Employee|false
@@ -110,7 +110,13 @@ class EmployeeDb extends Employee
         }
     }
 
-
+    /**
+     * @param string $firstName
+     * @param string $lastName
+     * @param int $departmentId
+     * @return EmployeeDb
+     * @throws Exception
+     */
     public function createNewObject(string $firstName, string $lastName, int $departmentId): EmployeeDb
     {
         {

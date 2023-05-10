@@ -1,62 +1,10 @@
 <?php
 
-class EmployeeFile implements Saveable
+class EmployeeFile extends Employee
 {
-    private int $id;
-    private string $firstName;
-    private string $lastName;
-    private int $departmentId;
 
     /**
-     * @param int|null $id
-     * @param string|null $firstName
-     * @param string|null $lastName
-     * @param int|null $departmentId
-     */
-    public function __construct(int|null $id = null, string|null $firstName = null, string|null $lastName = null, int|null $departmentId = null)
-    {
-        if (isset($id) && isset($firstName) && isset($lastName) && isset($departmentId)) {
-            $this->id = $id;
-            $this->firstName = $firstName;
-            $this->lastName = $lastName;
-            $this->departmentId = $departmentId;
-        }
-    }
-
-    /**
-     * @return int
-     */
-    public function getId(): int
-    {
-        return $this->id;
-    }
-
-    /**
-     * @return string
-     */
-    public function getFirstName(): string
-    {
-        return $this->firstName;
-    }
-
-    /**
-     * @return string
-     */
-    public function getLastName(): string
-    {
-        return $this->lastName;
-    }
-
-    /**
-     * @return int
-     */
-    public function getDepartmentId(): int
-    {
-        return $this->departmentId;
-    }
-
-    /**
-     * @return array|null
+     * @return EmployeeFile[]
      * @throws Exception
      */
     public function getAllAsObjects(): array|null
@@ -75,7 +23,7 @@ class EmployeeFile implements Saveable
             $handle = fopen(CSV_PATH_EMPLOYEE, 'r');
             $employees = [];
             while ($content = fgetcsv($handle)) {
-                $employees[] = new Employee($content[0], $content[1], $content[2], $content[3]);
+                $employees[] = new EmployeeFile($content[0], $content[1], $content[2], $content[3]);
             }
             fclose($handle);
         } catch (Error $e) {
@@ -87,14 +35,14 @@ class EmployeeFile implements Saveable
 
     /**
      * @param int $id
-     * @return Employee|false
+     * @return EmployeeFile|false
      * @throws Exception
      */
-    public function getObjectById(int $id): Employee|false
+    public function getObjectById(int $id): EmployeeFile|false
     {
 
         $employees = $this->getAllAsObjects();
-        $employee = new Employee();
+        $employee = new EmployeeFile();
         foreach ($employees as $e) {
             if ($e->getId() === $id) {
                 $employee = $e;
@@ -184,7 +132,7 @@ class EmployeeFile implements Saveable
         $e->storeInFile($employees);
         //die nächste freie id in die Datei schreiben
         file_put_contents(CSV_PATH_ID_EMPLOYEE_COUNTER, $id + 1);
-        return new Employee();
+        return new EmployeeFile();
     }
 
     /**
@@ -204,10 +152,6 @@ class EmployeeFile implements Saveable
         return 'Abteilung nicht gefunden';
     }
 
-    public function getDepartmentName(): string
-    {
-        return ((new Department())->getObjectById($this->departmentId))->$this->getName();
-    }
 
 
 }
