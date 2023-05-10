@@ -60,21 +60,21 @@ class EmployeeDb implements Saveable
      * @throws Exception
      */
     public function getAllAsObjects(): array|null
-   {
-            try {
-                $dbh = new PDO (DB_DNS, DB_USER, DB_PASSWD);
-                $sql = 'SELECT * FROM employee';
-                $result = $dbh->query($sql);
-                $employees = [];
-                while ($row = $result->fetchObject('Employee')) {
-                    $employees[] = $row;
-                }
-                $dbh = null;
-            } catch (PDOException $e) {
+    {
+        try {
+            $dbh = new PDO (DB_DNS, DB_USER, DB_PASSWD);
+            $sql = 'SELECT * FROM employee';
+            $result = $dbh->query($sql);
+            $employees = [];
+            while ($row = $result->fetchObject('Employee')) {
+                $employees[] = $row;
+            }
+            $dbh = null;
+        } catch (PDOException $e) {
 //                print "Error!: " . $e->getMessage() . "<br/>";
 //                die();
-                throw new Exception($e->getMessage() . ' ' . $e->getFile() . ' ' . $e->getCode() . ' ' . $e->getLine());
-            }
+            throw new Exception($e->getMessage() . ' ' . $e->getFile() . ' ' . $e->getCode() . ' ' . $e->getLine());
+        }
 
         return $employees;
     }
@@ -212,6 +212,7 @@ class EmployeeDb implements Saveable
     }
 
 }
+
 {
 
 }

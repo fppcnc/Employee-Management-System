@@ -82,7 +82,7 @@
                     <!--                           value="-->
                     <?php //if (isset($employee)) echo $employee->getDepartmentId(); ?><!--">-->
                     <?php $preselected = (isset($employee)) ? $employee->getDepartmentId() : null;
-                        echo HtmlHelper::buildSelectOption($departments, 'departmentId', $preselected) ?>
+                    echo HtmlHelper::buildSelectOption($departments, 'departmentId', $preselected) ?>
                 </div>
                 <div class="cell" data-title="Speichern">
                     <button type="submit" class="Save">Speichern</button>

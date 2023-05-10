@@ -35,7 +35,7 @@ try {
                 } else {
                     $employees = (new EmployeeFile())->getAllAsObjects();
                 }
-            } else if ($area === 'department'){
+            } else if ($area === 'department') {
                 $departments = (new Department())->getAllAsObjects();
             }
             $view = $action;
@@ -69,7 +69,7 @@ try {
                     $employees = (new EmployeeFile())->getAllAsObjects();
                 }
                 $view = 'showList';
-            } else if ($area === 'department'){
+            } else if ($area === 'department') {
                 (new Department())->delete($id);
                 $departments = (new Department())->getAllAsObjects();
                 $view = 'showList';
@@ -87,7 +87,7 @@ try {
                     $employees = (new EmployeeFile())->getAllAsObjects();
                 }
                 $view = 'showList';
-            } elseif ($area === 'department'){
+            } elseif ($area === 'department') {
                 $department = new Department($id, $name);
                 $department->updateObject();
                 $departments = (new Department())->getAllAsObjects();
@@ -105,7 +105,7 @@ try {
                 }
                 $view = 'showList';
                 break;
-            } else if ($area === 'department'){
+            } else if ($area === 'department') {
                 (new Department())->createNewObject($name);
                 $departments = (new Department())->getAllAsObjects();
                 $view = 'showList';
@@ -122,5 +122,5 @@ try {
 }
 
 
-include 'views/' . $view . ucfirst($area). '.php';
+include 'views/' . $view . ucfirst($area) . '.php';
 

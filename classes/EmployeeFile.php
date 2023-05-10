@@ -62,26 +62,26 @@ class EmployeeFile implements Saveable
     public function getAllAsObjects(): array|null
     {
 
-            // try versucht den Block zwischen den Klammern auszuführen
-            // wenn dies misslingt, gibt es entweder einen Error oder eine Exception
-            // dieses muss mit einem catch-Teil aufgefangen werden
-            // dieser catch-Teil wiederum muss anschließend geschrieben werden
-            // und/oder in der aufrufenden Funktion
-            try {
-                if (!is_file(CSV_PATH_EMPLOYEE)) {
-                    fopen(CSV_PATH_EMPLOYEE, 'w');
+        // try versucht den Block zwischen den Klammern auszuführen
+        // wenn dies misslingt, gibt es entweder einen Error oder eine Exception
+        // dieses muss mit einem catch-Teil aufgefangen werden
+        // dieser catch-Teil wiederum muss anschließend geschrieben werden
+        // und/oder in der aufrufenden Funktion
+        try {
+            if (!is_file(CSV_PATH_EMPLOYEE)) {
+                fopen(CSV_PATH_EMPLOYEE, 'w');
 //            die(CSV_PATH . 'existiert nicht');
-                }
-                $handle = fopen(CSV_PATH_EMPLOYEE, 'r');
-                $employees = [];
-                while ($content = fgetcsv($handle)) {
-                    $employees[] = new Employee($content[0], $content[1], $content[2], $content[3]);
-                }
-                fclose($handle);
-            } catch (Error $e) {
-                throw new Exception($e->getMessage() . ' ' . $e->getFile() . ' ' . $e->getCode() . ' ' . $e->getLine());
             }
-            return $employees;
+            $handle = fopen(CSV_PATH_EMPLOYEE, 'r');
+            $employees = [];
+            while ($content = fgetcsv($handle)) {
+                $employees[] = new Employee($content[0], $content[1], $content[2], $content[3]);
+            }
+            fclose($handle);
+        } catch (Error $e) {
+            throw new Exception($e->getMessage() . ' ' . $e->getFile() . ' ' . $e->getCode() . ' ' . $e->getLine());
+        }
+        return $employees;
     }
 
 
@@ -93,14 +93,14 @@ class EmployeeFile implements Saveable
     public function getObjectById(int $id): Employee|false
     {
 
-            $employees = $this->getAllAsObjects();
-            $employee = new Employee();
-            foreach ($employees as $e) {
-                if ($e->getId() === $id) {
-                    $employee = $e;
-                }
+        $employees = $this->getAllAsObjects();
+        $employee = new Employee();
+        foreach ($employees as $e) {
+            if ($e->getId() === $id) {
+                $employee = $e;
             }
-            return $employee;
+        }
+        return $employee;
     }
 
     /**
@@ -110,15 +110,15 @@ class EmployeeFile implements Saveable
      */
     public function delete(int $id): void
     {
-            //alle employees laden
-            $employees = $this->getAllAsObjects();
-            foreach ($employees as $key => $employee) {
-                if ($employee->getId() === $id) {
-                    // zu löschenden Employee aus array $employees entfernen
-                    unset($employees[$key]);
-                }
+        //alle employees laden
+        $employees = $this->getAllAsObjects();
+        foreach ($employees as $key => $employee) {
+            if ($employee->getId() === $id) {
+                // zu löschenden Employee aus array $employees entfernen
+                unset($employees[$key]);
             }
-            $this->storeInFile($employees);
+        }
+        $this->storeInFile($employees);
     }
 
     /**
@@ -127,16 +127,16 @@ class EmployeeFile implements Saveable
      */
     public function updateObject(): void
     {
-            // alle employees laden
-            $employees = $this->getAllAsObjects();
-            foreach ($employees as $key => $employee) {
-                if ($employee->getId() === $this->id) {
-                    // zu ändernden Employee im array $employees ändern
-                    $employees[$key] = $this;
-                    break;
-                }
+        // alle employees laden
+        $employees = $this->getAllAsObjects();
+        foreach ($employees as $key => $employee) {
+            if ($employee->getId() === $this->id) {
+                // zu ändernden Employee im array $employees ändern
+                $employees[$key] = $this;
+                break;
             }
-            $this->storeInFile($employees);
+        }
+        $this->storeInFile($employees);
     }
 
 
@@ -170,21 +170,21 @@ class EmployeeFile implements Saveable
 
     public function createNewObject(string $firstName, string $lastName, int $departmentId): Employee
     {
-            // wir brauchen eine (auto-increment-)Id für dieses Employee-Objekt
-            // dazu schreiben wir immer die nächste id in eine static Variable in Klasse Employee
+        // wir brauchen eine (auto-increment-)Id für dieses Employee-Objekt
+        // dazu schreiben wir immer die nächste id in eine static Variable in Klasse Employee
 
-            if (!is_file(CSV_PATH_ID_EMPLOYEE_COUNTER)) {
-                file_put_contents(CSV_PATH_ID_EMPLOYEE_COUNTER, 1);
-            }
-            //nächste freie ID auslesen
-            $id = file_get_contents(CSV_PATH_ID_EMPLOYEE_COUNTER);
-            $e = new EmployeeFile ($id, $firstName, $lastName, $departmentId);
-            $employees = $e->getAllAsObjects();
-            $employees[] = $e; // den neuen Employee den vorherigen Employees hinzufügen
-            $e->storeInFile($employees);
-            //die nächste freie id in die Datei schreiben
-            file_put_contents(CSV_PATH_ID_EMPLOYEE_COUNTER, $id + 1);
-            return new EmployeeFile();
+        if (!is_file(CSV_PATH_ID_EMPLOYEE_COUNTER)) {
+            file_put_contents(CSV_PATH_ID_EMPLOYEE_COUNTER, 1);
+        }
+        //nächste freie ID auslesen
+        $id = file_get_contents(CSV_PATH_ID_EMPLOYEE_COUNTER);
+        $e = new EmployeeFile ($id, $firstName, $lastName, $departmentId);
+        $employees = $e->getAllAsObjects();
+        $employees[] = $e; // den neuen Employee den vorherigen Employees hinzufügen
+        $e->storeInFile($employees);
+        //die nächste freie id in die Datei schreiben
+        file_put_contents(CSV_PATH_ID_EMPLOYEE_COUNTER, $id + 1);
+        return new EmployeeFile();
     }
 
     /**

@@ -13,7 +13,7 @@ class HtmlHelper
         if (!isset($preselected)) $preselected = '';
         $html = "<select name='$name'>\n";
 
-        foreach ($allObjects as $object){
+        foreach ($allObjects as $object) {
             $selected = ($preselected === $object->getId()) ? 'selected' : '';
             $html .= "<option value='" . $object->getId() . " ' $selected>" . $object->getName() . "</option>\n";
         }

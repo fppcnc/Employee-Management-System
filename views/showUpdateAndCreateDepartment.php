@@ -58,7 +58,8 @@
                     <?php
                     if (isset($department)) {
                         ?>
-                        <input type="number" name="id" readonly value="<?php if (isset($department)) echo $department->getId(); ?>">
+                        <input type="number" name="id" readonly
+                               value="<?php if (isset($department)) echo $department->getId(); ?>">
                         <?php
                     }
                     ?>
