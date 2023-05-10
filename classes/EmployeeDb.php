@@ -1,60 +1,7 @@
 <?php
 
-class EmployeeDb implements Saveable
+class EmployeeDb extends Employee
 {
-    private int $id;
-    private string $firstName;
-    private string $lastName;
-    private int $departmentId;
-
-    /**
-     * @param int|null $id
-     * @param string|null $firstName
-     * @param string|null $lastName
-     * @param int|null $departmentId
-     */
-    public function __construct(int|null $id = null, string|null $firstName = null, string|null $lastName = null, int|null $departmentId = null)
-    {
-        if (isset($id) && isset($firstName) && isset($lastName) && isset($departmentId)) {
-            $this->id = $id;
-            $this->firstName = $firstName;
-            $this->lastName = $lastName;
-            $this->departmentId = $departmentId;
-        }
-    }
-
-    /**
-     * @return int
-     */
-    public function getId(): int
-    {
-        return $this->id;
-    }
-
-    /**
-     * @return string
-     */
-    public function getFirstName(): string
-    {
-        return $this->firstName;
-    }
-
-    /**
-     * @return string
-     */
-    public function getLastName(): string
-    {
-        return $this->lastName;
-    }
-
-    /**
-     * @return int
-     */
-    public function getDepartmentId(): int
-    {
-        return $this->departmentId;
-    }
-
     /**
      * @return array|null
      * @throws Exception
@@ -66,7 +13,7 @@ class EmployeeDb implements Saveable
             $sql = 'SELECT * FROM employee';
             $result = $dbh->query($sql);
             $employees = [];
-            while ($row = $result->fetchObject('Employee')) {
+            while ($row = $result->fetchObject('EmployeeDb')) {
                 $employees[] = $row;
             }
             $dbh = null;
@@ -106,7 +53,7 @@ class EmployeeDb implements Saveable
 //                das vollständige statement wird in der Datenbank ausgeführt
                 $stmt->execute();
 //                die zurückgegebenen Daten werden ausgelassen
-                $employee = $stmt->fetchObject('Employee');
+                $employee = $stmt->fetchObject('EmployeeDb');
 
                 $dbh = null;
             } catch (PDOException $e) {
@@ -164,7 +111,7 @@ class EmployeeDb implements Saveable
     }
 
 
-    public function createNewObject(string $firstName, string $lastName, int $departmentId): Employee
+    public function createNewObject(string $firstName, string $lastName, int $departmentId): EmployeeDb
     {
         {
             try {
@@ -186,7 +133,7 @@ class EmployeeDb implements Saveable
                 throw new Exception($e->getMessage() . ' ' . $e->getFile() . ' ' . $e->getCode() . ' ' . $e->getLine());
             }
         }
-        return new Employee($id, $firstName, $lastName, $departmentId);
+        return new EmployeeDb($id, $firstName, $lastName, $departmentId);
     }
 
     /**
@@ -206,13 +153,7 @@ class EmployeeDb implements Saveable
         return 'Abteilung nicht gefunden';
     }
 
-    public function getDepartmentName(): string
-    {
-        return ((new Department())->getObjectById($this->departmentId))->$this->getName();
-    }
+
 
 }
 
-{
-
-}
