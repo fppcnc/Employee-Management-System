@@ -15,7 +15,7 @@ class DepartmentDb extends Department
             $sql = "SELECT * FROM departments";
             $result = $dbh->query($sql);
             $departments = [];
-            while ($row = $result->fetchObject('Department')) {
+            while ($row = $result->fetchObject('DepartmentDb')) {
                 $departments[] = $row;
             }
             $dbh = null;
@@ -41,9 +41,9 @@ class DepartmentDb extends Department
             $stmt = $dbh->prepare($sql);
             $stmt->bindParam(':id', $id, PDO::PARAM_INT);
             $stmt->execute();
-            $department = $stmt->fetchObject('Department');
-
+            $department = $stmt->fetchObject('DepartmentDb');
             $dbh = null;
+
         } catch (PDOException $d) {
             throw new Exception($d->getMessage() . ' ' . $d->getFile() . ' ' . $d->getCode() . ' ' . $d->getLine());
         }
@@ -113,4 +113,6 @@ class DepartmentDb extends Department
         }
         return new DepartmentDb($id, $name);
     }
+
+
 }

@@ -119,25 +119,25 @@ class EmployeeDb extends Employee
      */
     public function createNewObject(string $firstName, string $lastName, int $departmentId): EmployeeDb
     {
-        {
-            try {
-                $dbh = new PDO (DB_DNS, DB_USER, DB_PASSWD);
+
+        try {
+            $dbh = new PDO (DB_DNS, DB_USER, DB_PASSWD);
 //                Version mit prepared statement und benannten Platzhaltern
-                $sql = "INSERT INTO employee (id, firstName, lastName, departmentId) VALUES (NULL, :firstName, :lastName, :departmentId)";
+            $sql = "INSERT INTO employee (id, firstName, lastName, departmentId) VALUES (NULL, :firstName, :lastName, :departmentId)";
 //                Version mit prepared statement und aufgezählten Platzhaltern
 //                $sql = "INSERT INTO employee(id, firstName, lastName, departmentId) VALUES (NULL, ?, ?, ?)";
-                $stmt = $dbh->prepare($sql);
-                $stmt->bindParam(':firstName', $firstName, PDO::PARAM_STR);
-                $stmt->bindParam(':lastName', $lastName, PDO::PARAM_STR);
-                $stmt->bindParam(':departmentId', $departmentId, PDO::PARAM_INT);
-                $stmt->execute();
+            $stmt = $dbh->prepare($sql);
+            $stmt->bindParam(':firstName', $firstName, PDO::PARAM_STR);
+            $stmt->bindParam(':lastName', $lastName, PDO::PARAM_STR);
+            $stmt->bindParam(':departmentId', $departmentId, PDO::PARAM_INT);
+            $stmt->execute();
 //                Version mit platzhaltern
 //                $stmt->execute([$firstName, $lastName, $departmentId]);
-                $id = $dbh->lastInsertId();
-                $dbh = null;
-            } catch (PDOException $e) {
-                throw new Exception($e->getMessage() . ' ' . $e->getFile() . ' ' . $e->getCode() . ' ' . $e->getLine());
-            }
+            $id = $dbh->lastInsertId();
+            $dbh = null;
+        } catch (PDOException $e) {
+            throw new Exception($e->getMessage() . ' ' . $e->getFile() . ' ' . $e->getCode() . ' ' . $e->getLine());
+
         }
         return new EmployeeDb($id, $firstName, $lastName, $departmentId);
     }
@@ -159,11 +159,37 @@ class EmployeeDb extends Employee
         return 'Abteilung nicht gefunden';
     }
 
+    /**
+     * @return string
+     * @throws Exception
+     */
     public function getDepartmentName(): string
     {
         return ((new DepartmentDb())->getObjectById($this->departmentId))->$this->getName();
     }
 
 
+    public function getAllEmployeesByDepartment(Department $department): array|null
+    {
+        try {
+            $dbh = new PDO (DB_DNS, DB_USER, DB_PASSWD);
+            $sql = "SELECT * FROM employee WHERE departmentId=:departmentId";
+            $stmt = $dbh->prepare($sql);
+            $id = $department->getId();
+            $stmt->bindParam(':departmentId', $id, PDO::PARAM_INT);
+            $stmt->execute();
+            $employees = [];
+            while ($row = $stmt->fetchObject('EmployeeDb')) {
+                $employees[] = $row;
+            }
+            $dbh = null;
+
+
+        } catch (PDOException $e) {
+            throw new Exception($e->getMessage() . ' ' . $e->getFile() . ' ' . $e->getCode() . ' ' . $e->getLine());
+
+        }
+        return $employees;
+    }
 }
 

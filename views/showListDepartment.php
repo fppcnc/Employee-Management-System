@@ -31,6 +31,10 @@
             <div class="cell">
                 Ändern
             </div>
+            <div class="cell">
+                Zugehörige Mitarbeiter
+            </div>
+
         </div>
         <?php foreach ($departments as $department) {
             ?>
@@ -49,6 +53,11 @@
                 <div class="cell" data-title="Ändern">
                     <a href='index.php?action=showUpdate&area=department&id=<?php echo $department->getId(); ?>'>
                         <button type="button" class="update">Ändern</button>
+                    </a>
+                </div>
+                <div class="cell" data-title="Zugehörige Mitarbeiter">
+                    <a href='index.php?action=employeesToDepartment&area=employee&id=<?php echo $department->getId(); ?>'>
+                        <button type="button" class="zugehoerigeMitarbeiter">Zugehörige Mitarbeiter</button>
                     </a>
                 </div>
             </div>

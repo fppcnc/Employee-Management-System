@@ -44,6 +44,11 @@ try {
             }
             $view = $action;
             break;
+        case 'employeesToDepartment':
+            $department = (new DepartmentDb())->getObjectById($id);
+            $employees = (new EmployeeDb())->getAllEmployeesByDepartment($department);
+            $view = 'showList';
+            break;
         case 'showUpdate':
             if ($area === 'employee') {
                 if (PERSISTENCY === 'db') {
