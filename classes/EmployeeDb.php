@@ -149,7 +149,7 @@ class EmployeeDb extends Employee
     public function printDepartmentNameFromEmployeeDepartmentId(): string
     {
         // create an instance of class Department inside Employee
-        $departments = (new Department())->getAllAsObjects();
+        $departments = (new DepartmentDb())->getAllAsObjects();
         // compare EmpDepID with all DepID. when there´s a match, print it
         foreach ($departments as $department) {
             if ($this->getDepartmentId() === $department->getID()) {
@@ -159,6 +159,10 @@ class EmployeeDb extends Employee
         return 'Abteilung nicht gefunden';
     }
 
+    public function getDepartmentName(): string
+    {
+        return ((new DepartmentDb())->getObjectById($this->departmentId))->$this->getName();
+    }
 
 
 }

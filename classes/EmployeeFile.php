@@ -152,6 +152,9 @@ class EmployeeFile extends Employee
         return 'Abteilung nicht gefunden';
     }
 
-
+    public function getDepartmentName(): string
+    {
+        return ((new DepartmentFile())->getObjectById($this->departmentId))->$this->getName();
+    }
 
 }

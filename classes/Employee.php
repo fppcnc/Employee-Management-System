@@ -57,8 +57,5 @@ abstract class Employee implements Saveable
         return $this->departmentId;
     }
 
-    public function getDepartmentName(): string
-    {
-        return ((new Department())->getObjectById($this->departmentId))->$this->getName();
-    }
+
 }
