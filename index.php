@@ -44,11 +44,6 @@ try {
             }
             $view = $action;
             break;
-        case 'employeesToDepartment':
-            $department = (new DepartmentDb())->getObjectById($id);
-            $employees = (new EmployeeDb())->getAllEmployeesByDepartment($department);
-            $view = 'showList';
-            break;
         case 'showUpdate':
             if ($area === 'employee') {
                 if (PERSISTENCY === 'db') {
@@ -76,6 +71,11 @@ try {
             }
             $view = 'showUpdateAndCreate';
             break;
+        case 'employeesToDepartment':
+            $department = (new DepartmentDb())->getObjectById($id);
+            $employees = (new EmployeeDb())->getAllEmployeesByDepartment($department);
+            $view = 'showList';
+            break;
         case 'delete':
             if ($area === 'employee') {
                 if (PERSISTENCY === 'db') {
@@ -92,7 +92,8 @@ try {
                     $departments = (new DepartmentDb())->getAllAsObjects();
                 } else {
                     (new DepartmentFile())->delete($id);
-                    $departments = (new DepartmentFile())->getAllAsObjects();                }
+                    $departments = (new DepartmentFile())->getAllAsObjects();
+                }
                 $view = 'showList';
             }
             break;

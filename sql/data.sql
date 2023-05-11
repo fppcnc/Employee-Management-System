@@ -16,8 +16,8 @@ CREATE TABLE departments
 CREATE TABLE employee
 (
     id           int primary key auto_increment,
-    firstName    VARCHAR(44),
-    lastName     VARCHAR(44),
+    firstName    VARCHAR(45),
+    lastName     VARCHAR(45),
     departmentId int,
     foreign key (departmentId) references departments (id)
 );
@@ -26,4 +26,4 @@ insert into departments
 values (NULL, 'Finanz');
 
 insert into employee
-values (NULL, 'Ablet', 'Semet', 1);
+values (NULL, 'Fpp', 'Cnc', 1);
