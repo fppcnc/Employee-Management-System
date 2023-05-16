@@ -23,7 +23,7 @@ CREATE TABLE employee
 );
 
 insert into departments
-values (NULL, 'Finanz');
+values (NULL, 'admin');
 
 insert into employee
 values (NULL, 'AAA', 'AAA', 1);
