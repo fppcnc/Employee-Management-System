@@ -58,15 +58,19 @@ class EmployeeFile extends Employee
      */
     public function delete(int $id): void
     {
-        //alle employees laden
-        $employees = $this->getAllAsObjects();
-        foreach ($employees as $key => $employee) {
-            if ($employee->getId() === $id) {
-                // zu löschenden Employee aus array $employees entfernen
-                unset($employees[$key]);
+        try {
+            //alle employees laden
+            $employees = $this->getAllAsObjects();
+            foreach ($employees as $key => $employee) {
+                if ($employee->getId() === $id) {
+                    // zu löschenden Employee aus array $employees entfernen
+                    unset($employees[$key]);
+                }
             }
-        }
-        $this->storeInFile($employees);
+            $this->storeInFile($employees);
+        } catch (Error $e) {
+                throw new Exception('Fehler in delete: ' . $e->getMessage());
+            }
     }
 
     /**
@@ -75,6 +79,7 @@ class EmployeeFile extends Employee
      */
     public function updateObject(): void
     {
+        try {
         // alle employees laden
         $employees = $this->getAllAsObjects();
         foreach ($employees as $key => $employee) {
@@ -85,6 +90,9 @@ class EmployeeFile extends Employee
             }
         }
         $this->storeInFile($employees);
+        } catch (Error $e) {
+            throw new Exception('Fehler in store(): ' . $e->getMessage());
+        }
     }
 
 
@@ -155,6 +163,24 @@ class EmployeeFile extends Employee
     public function getDepartmentName(): string
     {
         return ((new DepartmentFile())->getObjectById($this->departmentId))->$this->getName();
+    }
+
+    public function getAllEmployeesByDepartment(Department $department): array|null
+    {
+        {
+            try{
+                $employees = (new EmployeeFile())->getAllAsObjects();
+                $empByDepartment = [];
+                foreach($employees as $employee) {
+                    if($department->getId() === $employee->getDepartmentId()){
+                        $empByDepartment[] = $employee;
+                    }
+                }
+            } catch (Error $e) {
+                throw new Exception($e->getMessage());
+            }
+            return $empByDepartment;
+        }
     }
 
 }

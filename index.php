@@ -46,17 +46,21 @@ try {
             break;
         case 'employeesToDepartment':
             $department = (new DepartmentDb())->getObjectById($id);
-            $employees = (new EmployeeDb())->getAllEmployeesByDepartment($department);
+            $department->buildEmployees();
+            $employees = ($department->getEmployees());
             $view = 'showList';
             break;
         case 'showUpdate':
             if ($area === 'employee') {
                 if (PERSISTENCY === 'db') {
                     $e = new EmployeeDb();
+                    $d = new DepartmentDb();
                 } else {
                     $e = new EmployeeFile();
+                    $d = new DepartmentFile();
                 }
                 $employee = $e->getObjectById($id);
+                $departments = $d->getAllAsObjects();
             } else if ($area === 'department') {
                 if (PERSISTENCY === 'db') {
                     $d = new DepartmentDb();
@@ -65,6 +69,8 @@ try {
                 }
                 $department = $d->getObjectById($id);
             }
+            $view = 'showUpdateAndCreate';
+            break;
         case 'showCreate':
 //            if ($area === 'employee') {
 //                // showCreate und showUpdate haben gleiche Oberfläche
@@ -85,16 +91,16 @@ try {
                     (new EmployeeFile())->delete($id);
                     $employees = (new EmployeeFile())->getAllAsObjects();
                 }
-                $view = 'showList';
             } else if ($area === 'department') {
                 if (PERSISTENCY === 'db') {
                     (new DepartmentDb())->delete($id);
                     $departments = (new DepartmentDb())->getAllAsObjects();
                 } else {
                     (new DepartmentFile())->delete($id);
-                    $departments = (new DepartmentFile())->getAllAsObjects();                }
-                $view = 'showList';
+                    $departments = (new DepartmentFile())->getAllAsObjects();
+                }
             }
+            $view = 'showList';
             break;
         case 'update':
             if ($area === 'employee') {

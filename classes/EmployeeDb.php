@@ -3,15 +3,29 @@
 class EmployeeDb extends Employee
 {
     /**
+     * @var array
+     */
+    private array $employees;
+
+    /**
      * @return EmployeeDb[]
      * @throws Exception
      */
-    public function getAllAsObjects(): array|null
+    public function getAllAsObjects(Department $department = null): array|null
     {
         try {
             $dbh = new PDO (DB_DNS, DB_USER, DB_PASSWD);
-            $sql = 'SELECT * FROM employee';
-            $result = $dbh->query($sql);
+            if (!isset($department)) {
+                $sql = 'SELECT * FROM employee';
+                $result = $dbh->query($sql);
+            } else {
+                $sql = "SELECT * from employee WHERE departmentId = :departmentId";
+                $stmt = $dbh->prepare($sql);
+                $id = $department->getId();
+                $stmt->bindParam('departmentId', $id);
+                $stmt->execute();
+                $result = $stmt;
+            }
             $employees = [];
             while ($row = $result->fetchObject('EmployeeDb')) {
                 $employees[] = $row;
@@ -171,25 +185,7 @@ class EmployeeDb extends Employee
 
     public function getAllEmployeesByDepartment(Department $department): array|null
     {
-        try {
-            $dbh = new PDO (DB_DNS, DB_USER, DB_PASSWD);
-            $sql = "SELECT * FROM employee WHERE departmentId=:departmentId";
-            $stmt = $dbh->prepare($sql);
-            $id = $department->getId();
-            $stmt->bindParam(':departmentId', $id, PDO::PARAM_INT);
-            $stmt->execute();
-            $employees = [];
-            while ($row = $stmt->fetchObject('EmployeeDb')) {
-                $employees[] = $row;
-            }
-            $dbh = null;
-
-
-        } catch (PDOException $e) {
-            throw new Exception($e->getMessage() . ' ' . $e->getFile() . ' ' . $e->getCode() . ' ' . $e->getLine());
-
-        }
-        return $employees;
+       return $this->getAllAsObjects($department);
     }
 }
 

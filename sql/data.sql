@@ -26,4 +26,4 @@ insert into departments
 values (NULL, 'Finanz');
 
 insert into employee
-values (NULL, 'Ablet', 'Semet', 1);
+values (NULL, 'AAA', 'AAA', 1);

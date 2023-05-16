@@ -3,6 +3,21 @@
 class DepartmentDb extends Department
 {
 
+    protected array $employees = [];
+
+    /**
+     * @return array
+     */
+    public function getEmployees(): array
+    {
+        return $this->employees;
+    }
+
+    public function buildEmployees(): void
+    {
+        $this->employees = ((new EmployeeDb())->getAllEmployeesByDepartment($this));
+    }
+
     /**
      * @return DepartmentDb[]
      * @throws Exception
@@ -72,26 +87,46 @@ class DepartmentDb extends Department
     }
 
 
-    /**
-     * @param int $id
-     * @return void
-     * @throws Exception
-     */
+    // this version of Delete deletes even tho there are employees assigned to department
+//    /**
+//     * @param int $id
+//     * @return void
+//     * @throws Exception
+//     */
+//    public function delete(int $id): void
+//    {
+//        try {
+//            $dbh = new PDO(DB_DNS, DB_USER, DB_PASSWD);
+//            $sql = "DELETE FROM departments WHERE id=:id";
+//            $stmt = $dbh->prepare($sql);
+//            $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+//            $stmt->execute();
+//            $department = $stmt->fetchObject('EmployeeDb');
+//            $dbh = null;
+//        } catch
+//        (PDOException $d) {
+//            throw new Exception($d->getMessage() . ' ' . $d->getFile() . ' ' . $d->getCode() . ' ' . $d->getLine());
+//        }
+//    }
+
+
+    // this version deletes department when no employees are assigned to it
     public function delete(int $id): void
     {
-        try {
-            $dbh = new PDO(DB_DNS, DB_USER, DB_PASSWD);
-            $sql = "DELETE FROM departments WHERE id=:id";
-            $stmt = $dbh->prepare($sql);
-            $stmt->bindParam(':id', $id, PDO::PARAM_INT);
-            $stmt->execute();
-            $department = $stmt->fetchObject('EmployeeDb');
-            $dbh = null;
-        } catch
-        (PDOException $d) {
-            throw new Exception($d->getMessage() . ' ' . $d->getFile() . ' ' . $d->getCode() . ' ' . $d->getLine());
+        $employeesLeft = (new EmployeeDb())->getAllEmployeesByDepartment((new DepartmentDb())->getObjectById($id));
+        if (count($employeesLeft) === 0) {
+            try {
+                $dbh = new PDO (DB_DNS, DB_USER, DB_PASSWD);
+                $sql = "DELETE FROM department WHERE id = :id";
+                $stmt = $dbh->prepare($sql);
+                $stmt->bindParam('id', $id, PDO::PARAM_INT);
+                $stmt->execute();
+            } catch (PDOException $e) {
+                throw new Exception('Fehler in delete Department: ' . $e->getMessage());
+            }
         }
     }
+
 
     /**
      * @param string $name *

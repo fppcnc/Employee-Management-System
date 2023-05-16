@@ -7,6 +7,11 @@ abstract class Department implements Saveable
     protected string $name;
 
     /**
+     * @var Employee[]
+     */
+    protected array $employees;
+
+    /**
      * @param int|null $id
      * @param string|null $name
      */
@@ -16,6 +21,12 @@ abstract class Department implements Saveable
             $this->id = $id;
             $this->name = $name;
         }
+    }
+
+    public function getAllEmployeesByDepartment($department):void {
+
+        $employees =[];
+        $this->employees = $this->employees;
     }
 
 
