@@ -17,54 +17,57 @@
     <?php
     include 'views/navigation.php';
     ?>
-    <div class="table">
-        <div class="row header">
-            <div class="cell">
+    <div class="tableFixHead">
+    <table>
+        <thead>
+        <tr>
+            <th>
                 Id
-            </div>
-            <div class="cell">
+            </th>
+            <th>
                 Department Name
-            </div>
-            <div class="cell">
+            </th>
+            <th>
                 Delete
-            </div>
-            <div class="cell">
+            </th>
+            <th>
                 Edit
-            </div>
-            <div class="cell">
+            </th>
+            <th>
                 Associated employees
-            </div>
-
-        </div>
+            </th>
+        </tr>
+        </thead>
         <?php foreach ($departments as $department) {
             ?>
-            <div class="row">
-                <div class="cell" data-title="Id">
+            <tr>
+                <td data-title="Id">
                     <?php echo $department->getId(); ?>
-                </div>
-                <div class="cell" data-title="DepartmentName">
+                </td>
+                <td data-title="DepartmentName">
                     <?php echo $department->getName(); ?>
-                </div>
-                <div class="cell" data-title="Delete">
+                </td>
+                <td data-title="Delete">
                     <a href='index.php?action=delete&&area=department&id=<?php echo $department->getId(); ?>'>
                         <button type="button" class="delete">Delete</button>
                     </a>
-                </div>
-                <div class="cell" data-title="Edit">
+                </td>
+                <td data-title="Edit">
                     <a href='index.php?action=showUpdate&area=department&id=<?php echo $department->getId(); ?>'>
                         <button type="button" class="update">Edit</button>
                     </a>
-                </div>
-                <div class="cell" data-title="Associated employees">
+                </td>
+                <td data-title="Associated employees">
                     <a href='index.php?action=employeesToDepartment&area=employee&id=<?php echo $department->getId(); ?>'>
                         <button type="button" class="associatedEmployees">Associated employees</button>
                     </a>
-                </div>
-            </div>
+                </td>
+            </tr>
             <?php
         }
         ?>
-    </div>
-</div>
+    </table>
+        </div>
+        </div>
 </body>
 </html>
