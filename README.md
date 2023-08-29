@@ -31,13 +31,13 @@ This repository contains the code for an Employee Management System (EMS) that s
 ## Installation
 
 1. Clone this repository: 
-
+```
 git clone https://github.com/fppcnc/company
-
+```
 2. Navigate to the project directory:
-
+```
 cd company
-
+```
 3. Configure the `config.php` file as per your requirements.
 
 4. If using the `db` option, ensure that your database is set up and the connection credentials are updated in `config.php`.
