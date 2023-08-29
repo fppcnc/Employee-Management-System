@@ -27,51 +27,54 @@
     <?php
     include 'views/navigation.php';
     ?>
-    <div class="table">
-        <form method="post" action="index.php">
-            <input type="hidden" name="area" value="department">
-            <input type="hidden" name="action" value="<?php echo (isset($department)) ? 'update' : 'create'; ?>">
-
-            <div class="row header blue">
-                <div class="cell">
-                    ID
-                </div>
-                <div class="cell">
-                    Department Name
-                </div>
-                <div class="cell">
-                    Action
-                </div>
-            </div>
-            <div class="row">
-                <div class="cell" data-title="ID">
-                    <!--                Solution 1-->
-                    <!--                <input type="number" class="ID" name="id" readonly value="-->
-                    <?php //if (isset($department)) echo $department->getId(); ?><!--">-->
-                    <!--                Solution 2-->
-                    <?php
-                    if (isset($department)) {
-                        ?>
-                        <input type="number" name="id" readonly
-                               value="<?php if (isset($department)) echo $department->getId(); ?>">
+    <div class="tableFixHead">
+        <table>
+            <form method="post" action="index.php">
+                <input type="hidden" name="area" value="department">
+                <input type="hidden" name="action" value="<?php echo (isset($department)) ? 'update' : 'create'; ?>">
+                <thead>
+                <tr>
+                    <th>
+                        ID
+                    </th>
+                    <th>
+                        Department Name
+                    </th>
+                    <th>
+                        Action
+                    </th>
+                </tr>
+                </thead>
+                <tr>
+                    <td data-title="ID">
+                        <!--                Solution 1-->
+                        <!--                <input type="number" class="ID" name="id" readonly value="-->
+                        <?php //if (isset($department)) echo $department->getId(); ?><!--">-->
+                        <!--                Solution 2-->
                         <?php
-                    }
-                    ?>
+                        if (isset($department)) {
+                            ?>
+                            <input type="number" name="id" readonly
+                                   value="<?php if (isset($department)) echo $department->getId(); ?>">
+                            <?php
+                        }
+                        ?>
+                    </td>
+                    <td data-title="DepartmentName">
+                        <input type="text" class="DepartmentName" name="name" required
+                               value="<?php if (isset($department)) echo $department->getName(); ?>">
+                    </td>
+                    <td data-title="Save">
+                        <button type="submit" class="Save">Save</button>
+                        <button type="reset" class="Reset">Reset</button>
+                    </td>
+                </tr>
+                <div>
+                    <!--            for Error Report-->
                 </div>
-                <div class="cell" data-title="DepartmentName">
-                    <input type="text" class="DepartmentName" name="name" required
-                           value="<?php if (isset($department)) echo $department->getName(); ?>">
-                </div>
-                <div class="cell" data-title="Save">
-                    <button type="submit" class="Save">Save</button>
-                    <button type="reset" class="Reset">Reset</button>
-                </div>
-            </div>
-            <div>
-                <!--            for Error Report-->
-            </div>
 
-        </form>
+            </form>
+        </table>
     </div>
 </div>
 </body>

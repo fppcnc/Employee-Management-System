@@ -18,60 +18,67 @@
     <?php
     include 'views/navigation.php';
     ?>
-    <div class="table">
-        <div class="row header">
-            <div class="cell">
-                Id
-            </div>
-            <div class="cell">
-                First Name
-            </div>
-            <div class="cell">
-                Last Name
-            </div>
-            <div class="cell">
-                Department
-            </div>
-            <div class="cell">
-                Delete
-            </div>
-            <div class="cell">
-                Edit
-            </div>
-        </div>
-        <?php foreach ($employees as $employee) {
+    <div class="tableFixHead">
+        <table>
+            <thead>
+            <tr>
+                <th>
+                    Id
+                </th>
+
+                <th>
+                    First Name
+                </th>
+                <th>
+                    Last Name
+                </th>
+                <th>
+                    ID - Department
+                </th>
+                <th>
+                    Delete
+                </th>
+                <th>
+                    Edit
+                </th>
+            </tr>
+            </thead>
+            <?php foreach ($employees
+
+            as $employee) {
             ?>
-            <div class="row">
-                <div class="cell" data-title="Id">
+            <tr>
+                <td data-title="Id">
                     <?php echo $employee->getId(); ?>
-                </div>
-                <div class="cell" data-title="FirstName">
+                </td>
+                <td data-title="FirstName">
                     <?php echo $employee->getFirstName(); ?>
-                </div>
-                <div class="cell" data-title="LastName">
+                </td>
+                <td data-title="LastName">
                     <?php echo $employee->getLastName(); ?>
-                </div>
-                <div class="cell" data-title="DepartmentID">
+                </td>
+                <td data-title="DepartmentID">
                     <?php echo $employee->getDepartmentId() . ' - ' . $employee->printDepartmentNameFromEmployeeDepartmentId(); ?>
-                </div>
-                <div class="cell" data-title="Delete">
+                </td>
+                <td data-title="Delete">
                     <a href='index.php?action=delete&&area=employee&id=<?php echo $employee->getId(); ?>'>
                         <button type="button" class="delete">Delete</button>
                     </a>
-                </div>
-                <div class="cell" data-title="Edit">
+                </td>
+                <td data-title="Edit">
                     <a href='index.php?action=showUpdate&area=employee&id=<?php echo $employee->getId(); ?>'>
                         <button type="button" class="update">Edit</button>
                     </a>
-                </div>
-            </div>
-            <?php
-        }
-//        echo '<pre>';
-//        print_r($_POST);
-//        echo '</pre>';
-        ?>
+                </td>
+                </tr>
+                <?php
+                }
+                //        echo '<pre>';
+                //        print_r($_POST);
+                //        echo '</pre>';
+                ?>
+        </table>
     </div>
-</div>
+    </div>
 </body>
 </html>

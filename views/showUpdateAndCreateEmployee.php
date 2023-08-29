@@ -27,65 +27,69 @@
     <?php
     include 'views/navigation.php';
     ?>
-    <div class="table">
-        <form method="post" action="index.php">
-            <input type="hidden" name="area" value="employee">
-            <input type="hidden" name="action" value="<?php echo (isset($employee)) ? 'update' : 'create'; ?>">
-
-            <div class="row header blue">
-                <div class="cell">
-                    ID
-                </div>
-                <div class="cell">
-                    First Name
-                </div>
-                <div class="cell">
-                    Last Name
-                </div>
-                <div class="cell">
-                    Department
-                </div>
-                <div class="cell">
-                    Action
-                </div>
-            </div>
-            <div class="row">
-                <div class="cell" data-title="ID">
-                    <!--                Solution 1-->
-                    <!--                <input type="number" class="ID" name="id" readonly value="-->
-                    <?php //if (isset($employee)) echo $employee->getId(); ?><!--">-->
-                    <!--                Solution 2-->
-                    <?php
-                    if (isset($employee)) {
-                        ?>
-                        <input type="hidden" name="id" value="<?php if (isset($employee)) echo $employee->getId(); ?>">
+    <div class="tableFixHead">
+        <table>
+            <form method="post" action="index.php">
+                <input type="hidden" name="area" value="employee">
+                <input type="hidden" name="action" value="<?php echo (isset($employee)) ? 'update' : 'create'; ?>">
+                <thead>
+                <tr>
+                    <th>
+                        ID
+                    </th>
+                    <th>
+                        First Name
+                    </th>
+                    <th>
+                        Last Name
+                    </th>
+                    <th>
+                        Department
+                    </th>
+                    <th>
+                        Action
+                    </th>
+                </tr>
+                </thead>
+                <tr>
+                    <td data-title="ID">
+                        <!--                Solution 1-->
+                        <!--                <input type="number" class="ID" name="id" readonly value="-->
+                        <?php //if (isset($employee)) echo $employee->getId(); ?><!--">-->
+                        <!--                Solution 2-->
                         <?php
-                    }
-                    ?>
+                        if (isset($employee)) {
+                            ?>
+                            <input type="hidden" name="id"
+                                   value="<?php if (isset($employee)) echo $employee->getId(); ?>">
+                            <?php
+                        }
+                        ?>
+                    </td>
+                    <td data-title="FirstName">
+                        <input type="text" class="FirstName" name="firstName" required
+                               value="<?php if (isset($employee)) echo $employee->getFirstName(); ?>">
+                    </td>
+                    <td data-title="LastName">
+                        <input type="text" class="LastName" name="lastName" required
+                               value="<?php if (isset($employee)) echo $employee->getLastName(); ?>">
+                    </td>
+                    <td data-title="DepartmentID">
+                        <?php $preselected = (isset($employee)) ? $employee->getDepartmentId() : null;
+                        echo HtmlHelper::buildSelectOption($departments, 'departmentId', $preselected) ?>
+                    </td>
+                    <td data-title="Save">
+                        <button type="submit" class="Save">Save</button>
+                        <button type="reset" class="Reset">Reset</button>
+                    </td>
+                </tr>
+                <div>
+                    <!--            for Error report-->
                 </div>
-                <div class="cell" data-title="FirstName">
-                    <input type="text" class="FirstName" name="firstName" required
-                           value="<?php if (isset($employee)) echo $employee->getFirstName(); ?>">
-                </div>
-                <div class="cell" data-title="LastName">
-                    <input type="text" class="LastName" name="lastName" required
-                           value="<?php if (isset($employee)) echo $employee->getLastName(); ?>">
-                </div>
-                <div class="cell" data-title="DepartmentID">
-                    <?php $preselected = (isset($employee)) ? $employee->getDepartmentId() : null;
-                    echo HtmlHelper::buildSelectOption($departments, 'departmentId', $preselected) ?>
-                </div>
-                <div class="cell" data-title="Save">
-                    <button type="submit" class="Save">Save</button>
-                    <button type="reset" class="Reset">Reset</button>
-                </div>
-            </div>
-            <div>
-                <!--            for Error report-->
-            </div>
 
-        </form>
-    </div>
-</div>
+            </form>
+        </table>
+        </div>
+        </div>
 </body>
 </html>
