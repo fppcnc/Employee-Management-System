@@ -21,9 +21,7 @@ $departmentId = $_POST['departmentId'] ?? '';
 $name = $_POST['name'] ?? '';
 $idDepartment = $_POST['idDepartment'] ?? '';
 
-// Übergabevariablen desinfizieren (sanitize)
-// kleiner Ausflug XSS: in input-text-Felder javascript schreiben z.B.
-// <script>alert('XYZ...');</script>
+
 try {
     switch ($action) {
         case 'showList':

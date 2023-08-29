@@ -52,21 +52,21 @@ class EmployeeDb extends Employee
             try {
                 $dbh = new PDO (DB_DNS, DB_USER, DB_PASSWD);
 
-//                Version ohne Prepared Statement
+//                Version without Prepared Statement
 //                $sql = "SELECT * FROM employee WHERE id=$id";
 //                $result = $dbh->query($sql);
 //                $employee = $result->fetchObject('Employee');
 
-//                Version mit Prepared Statement
-//                nur variable Werte werden mit :... gekennzeichnet
+//                Version with Prepared Statement
+//                only variable values are marked with :... marked
                 $sql = "SELECT * FROM employee WHERE id=:id";
-//                sql wird an die SQL-Datenbank geschickt und es wird eine Syntaxüberprüfung durchgeführt
+                // sql is sent to the SQL database and a syntax check is performed
                 $stmt = $dbh->prepare($sql);
-//                die Werte für die Platzhalter :... werden auf Datentyp Überprüft und dann in das sql-Statement eingesetzt
+                // the values for the placeholders :... are checked for data type and then inserted into the sql statement
                 $stmt->bindParam(':id', $id, PDO::PARAM_INT);
-//                das vollständige statement wird in der Datenbank ausgeführt
+                // the complete statement is executed in the database
                 $stmt->execute();
-//                die zurückgegebenen Daten werden ausgelassen
+                // the returned data will be omitted
                 $employee = $stmt->fetchObject('EmployeeDb');
 
                 $dbh = null;
@@ -136,16 +136,16 @@ class EmployeeDb extends Employee
 
         try {
             $dbh = new PDO (DB_DNS, DB_USER, DB_PASSWD);
-//                Version mit prepared statement und benannten Platzhaltern
+// Version with prepared statement and named placeholders
             $sql = "INSERT INTO employee (id, firstName, lastName, departmentId) VALUES (NULL, :firstName, :lastName, :departmentId)";
-//                Version mit prepared statement und aufgezählten Platzhaltern
+// Version with prepared statement and enumerated placeholders
 //                $sql = "INSERT INTO employee(id, firstName, lastName, departmentId) VALUES (NULL, ?, ?, ?)";
             $stmt = $dbh->prepare($sql);
             $stmt->bindParam(':firstName', $firstName, PDO::PARAM_STR);
             $stmt->bindParam(':lastName', $lastName, PDO::PARAM_STR);
             $stmt->bindParam(':departmentId', $departmentId, PDO::PARAM_INT);
             $stmt->execute();
-//                Version mit platzhaltern
+//                Version with placeholders
 //                $stmt->execute([$firstName, $lastName, $departmentId]);
             $id = $dbh->lastInsertId();
             $dbh = null;
@@ -185,7 +185,7 @@ class EmployeeDb extends Employee
 
     public function getAllEmployeesByDepartment(Department $department): array|null
     {
-       return $this->getAllAsObjects($department);
+        return $this->getAllAsObjects($department);
     }
 }
 

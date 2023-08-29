@@ -5,14 +5,14 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>Department List</title>
 </head>
 <body>
 
 <link rel="stylesheet" href="css/style.css">
 <div class="wrapper">
-    <h1>Abteilung Liste
-
+    <h1>
+        Department List
     </h1>
     <?php
     include 'views/navigation.php';
@@ -23,16 +23,16 @@
                 Id
             </div>
             <div class="cell">
-                Abteilungsname
+                Department Name
             </div>
             <div class="cell">
-                Löschen
+                Delete
             </div>
             <div class="cell">
-                Ändern
+                Edit
             </div>
             <div class="cell">
-                Zugehörige Mitarbeiter
+                Associated employees
             </div>
 
         </div>
@@ -42,30 +42,27 @@
                 <div class="cell" data-title="Id">
                     <?php echo $department->getId(); ?>
                 </div>
-                <div class="cell" data-title="Abteilungsname">
+                <div class="cell" data-title="DepartmentName">
                     <?php echo $department->getName(); ?>
                 </div>
-                <div class="cell" data-title="Löschen">
+                <div class="cell" data-title="Delete">
                     <a href='index.php?action=delete&&area=department&id=<?php echo $department->getId(); ?>'>
-                        <button type="button" class="delete">Löschen</button>
+                        <button type="button" class="delete">Delete</button>
                     </a>
                 </div>
-                <div class="cell" data-title="Ändern">
+                <div class="cell" data-title="Edit">
                     <a href='index.php?action=showUpdate&area=department&id=<?php echo $department->getId(); ?>'>
-                        <button type="button" class="update">Ändern</button>
+                        <button type="button" class="update">Edit</button>
                     </a>
                 </div>
-                <div class="cell" data-title="Zugehörige Mitarbeiter">
+                <div class="cell" data-title="Associated employees">
                     <a href='index.php?action=employeesToDepartment&area=employee&id=<?php echo $department->getId(); ?>'>
-                        <button type="button" class="zugehoerigeMitarbeiter">Zugehörige Mitarbeiter</button>
+                        <button type="button" class="associatedEmployees">Associated employees</button>
                     </a>
                 </div>
             </div>
             <?php
         }
-        //        echo '<pre>';
-        //        print_r($_POST);
-        //        echo '</pre>';
         ?>
     </div>
 </div>

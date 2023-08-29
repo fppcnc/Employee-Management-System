@@ -1,14 +1,14 @@
 <nav>
     <a href="index.php?action=showCreate&area=employee">
-        <button>Neuer Mitarbeiter</button>
+        <button>New Employee</button>
     </a>
     <a href="index.php?action=showList&area=employee">
-        <button>Liste Mitarbeiter</button>
+        <button>List Employees</button>
     </a>
     <a href="index.php?action=showCreate&area=department">
-        <button>Neue Abteilung</button>
+        <button>New Department</button>
     </a>
     <a href="index.php?action=showList&area=department">
-        <button>Liste Abteilung</button>
+        <button>List Departments</button>
     </a>
 </nav>

@@ -5,20 +5,14 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-
+    <title>Employee List</title>
 </head>
 <body>
 
-<?php
 
-//echo '<pre>';
-//print_r($employees);
-//echo '</pre>';
-
-?>
 <div class="wrapper">
     <h1>
-        <title>Mitarbeiter Liste</title>
+        List Employee
         <link rel="stylesheet" href="css/style.css">
     </h1>
     <?php
@@ -30,19 +24,19 @@
                 Id
             </div>
             <div class="cell">
-                Vorname
+                First Name
             </div>
             <div class="cell">
-                Nachname
+                Last Name
             </div>
             <div class="cell">
-                Abteilung
+                Department
             </div>
             <div class="cell">
-                Löschen
+                Delete
             </div>
             <div class="cell">
-                Ändern
+                Edit
             </div>
         </div>
         <?php foreach ($employees as $employee) {
@@ -51,23 +45,23 @@
                 <div class="cell" data-title="Id">
                     <?php echo $employee->getId(); ?>
                 </div>
-                <div class="cell" data-title="Vorname">
+                <div class="cell" data-title="FirstName">
                     <?php echo $employee->getFirstName(); ?>
                 </div>
-                <div class="cell" data-title="Nachname">
+                <div class="cell" data-title="LastName">
                     <?php echo $employee->getLastName(); ?>
                 </div>
-                <div class="cell" data-title="AbteilungId">
+                <div class="cell" data-title="DepartmentID">
                     <?php echo $employee->getDepartmentId() . ' - ' . $employee->printDepartmentNameFromEmployeeDepartmentId(); ?>
                 </div>
-                <div class="cell" data-title="Löschen">
+                <div class="cell" data-title="Delete">
                     <a href='index.php?action=delete&&area=employee&id=<?php echo $employee->getId(); ?>'>
-                        <button type="button" class="delete">Löschen</button>
+                        <button type="button" class="delete">Delete</button>
                     </a>
                 </div>
-                <div class="cell" data-title="Ändern">
+                <div class="cell" data-title="Edit">
                     <a href='index.php?action=showUpdate&area=employee&id=<?php echo $employee->getId(); ?>'>
-                        <button type="button" class="update">Ändern</button>
+                        <button type="button" class="update">Edit</button>
                     </a>
                 </div>
             </div>

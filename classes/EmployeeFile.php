@@ -10,11 +10,11 @@ class EmployeeFile extends Employee
     public function getAllAsObjects(): array|null
     {
 
-        // try versucht den Block zwischen den Klammern auszuführen
-        // wenn dies misslingt, gibt es entweder einen Error oder eine Exception
-        // dieses muss mit einem catch-Teil aufgefangen werden
-        // dieser catch-Teil wiederum muss anschließend geschrieben werden
-        // und/oder in der aufrufenden Funktion
+// try tries to execute the block between the brackets.
+        // if this fails, there is either an error or an exception
+        // this must be caught with a catch-part
+        // this catch part in turn must be written afterwards
+        // and/or in the calling function
         try {
             if (!is_file(CSV_PATH_EMPLOYEE)) {
                 fopen(CSV_PATH_EMPLOYEE, 'w');
@@ -59,18 +59,18 @@ class EmployeeFile extends Employee
     public function delete(int $id): void
     {
         try {
-            //alle employees laden
+            //load all employees
             $employees = $this->getAllAsObjects();
             foreach ($employees as $key => $employee) {
                 if ($employee->getId() === $id) {
-                    // zu löschenden Employee aus array $employees entfernen
+                    // remove employee to be deleted from $employees array
                     unset($employees[$key]);
                 }
             }
             $this->storeInFile($employees);
         } catch (Error $e) {
-                throw new Exception('Fehler in delete: ' . $e->getMessage());
-            }
+            throw new Exception('Fehler in delete: ' . $e->getMessage());
+        }
     }
 
     /**
@@ -80,16 +80,16 @@ class EmployeeFile extends Employee
     public function updateObject(): void
     {
         try {
-        // alle employees laden
-        $employees = $this->getAllAsObjects();
-        foreach ($employees as $key => $employee) {
-            if ($employee->getId() === $this->id) {
-                // zu ändernden Employee im array $employees ändern
-                $employees[$key] = $this;
-                break;
+            // load all employees
+            $employees = $this->getAllAsObjects();
+            foreach ($employees as $key => $employee) {
+                if ($employee->getId() === $this->id) {
+                    // change the employee to be changed in the $employees array
+                    $employees[$key] = $this;
+                    break;
+                }
             }
-        }
-        $this->storeInFile($employees);
+            $this->storeInFile($employees);
         } catch (Error $e) {
             throw new Exception('Fehler in store(): ' . $e->getMessage());
         }
@@ -104,19 +104,19 @@ class EmployeeFile extends Employee
     private function storeInFile(array $employees): void
     {
         try {
-            // Datei employee.csv löschen
+            // File employee.csv deleted
             unlink(CSV_PATH_EMPLOYEE);
-            // Datei mit verkleinertem Array $employees neu schreiben
+            // Rewrite file with reduced array $employees
             $handle = fopen(CSV_PATH_EMPLOYEE, 'w');
             foreach ($employees as $employee) {
-                // jedes Objekt in ein Array überführen
+                // transform each object into an array
                 $empAssoArray = (array)$employee;
-                // das assoziative Array in ein numerischen umformen
+                // transform the associative array into a numeric one
                 $empNumArray = array_values($empAssoArray);
-                // jedes Array in die Datei schreiben
+                // write each array to the file
                 fputcsv($handle, $empNumArray, ',');
-                // obige 3 Befehle in einer Zeile
-                //fputcsv($handle, array_values((array)$employee), ',');
+                // above 3 commands in one line
+//                fputcsv($handle, array_values((array)$employee), ',');
             }
             fclose($handle);
         } catch (Error $e) {
@@ -126,19 +126,19 @@ class EmployeeFile extends Employee
 
     public function createNewObject(string $firstName, string $lastName, int $departmentId): Employee
     {
-        // wir brauchen eine (auto-increment-)Id für dieses Employee-Objekt
-        // dazu schreiben wir immer die nächste id in eine static Variable in Klasse Employee
+// we need an (auto-increment) id for this employee object
+        // for this we always write the next id into a static variable in class Employee
 
         if (!is_file(CSV_PATH_ID_EMPLOYEE_COUNTER)) {
             file_put_contents(CSV_PATH_ID_EMPLOYEE_COUNTER, 1);
         }
-        //nächste freie ID auslesen
+        // readnext free id
         $id = file_get_contents(CSV_PATH_ID_EMPLOYEE_COUNTER);
         $e = new EmployeeFile ($id, $firstName, $lastName, $departmentId);
         $employees = $e->getAllAsObjects();
-        $employees[] = $e; // den neuen Employee den vorherigen Employees hinzufügen
+        $employees[] = $e; // add the new employee to the previous employees
         $e->storeInFile($employees);
-        //die nächste freie id in die Datei schreiben
+        //write the next free id into the file
         file_put_contents(CSV_PATH_ID_EMPLOYEE_COUNTER, $id + 1);
         return new EmployeeFile();
     }
@@ -168,11 +168,11 @@ class EmployeeFile extends Employee
     public function getAllEmployeesByDepartment(Department $department): array|null
     {
         {
-            try{
+            try {
                 $employees = (new EmployeeFile())->getAllAsObjects();
                 $empByDepartment = [];
-                foreach($employees as $employee) {
-                    if($department->getId() === $employee->getDepartmentId()){
+                foreach ($employees as $employee) {
+                    if ($department->getId() === $employee->getDepartmentId()) {
                         $empByDepartment[] = $employee;
                     }
                 }
