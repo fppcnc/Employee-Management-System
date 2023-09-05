@@ -4,6 +4,8 @@
 
 This repository contains the code for an Employee Management System (EMS) that supports operations on employees and departments. The system allows you to view, update, create, and delete employee and department data. Users can opt to store the data either in a database (`db`) or as a file.csv (`file`), making it versatile and adaptable to various storage preferences.
 
+preview at : https://companymanagementapplication.000webhostapp.com/index.php
+
 ## Features:
 
 - **Dynamic Data Persistence**: Easily switch between database storage and file storage through the `PERSISTENCY` configuration.
