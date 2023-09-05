@@ -28,7 +28,7 @@ preview at : https://companymanagementapplication.000webhostapp.com/
 
 ## Prerequisites
 
-1. PHP 7.4+.
+1. PHP 8.0+.
 2. Configured database if using the `db` option for `PERSISTENCY`.
 3. Write permissions on the server if using the `file` option for `PERSISTENCY`.
 
