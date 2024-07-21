@@ -43,7 +43,8 @@ cd company
 ```
 3. Configure the `config.php` file as per your requirements.
 
-4. If using the `db` option, ensure that your database is set up and the connection credentials are updated in `config.php`. 
+4. If using the `db` option, ensure that your database is set up and the connection credentials are updated in `config.php`.
+
    4a. You can create and populate a db for this application running the code-example inside the folder `sql`.
 
 5. If using the `file` option, ensure that the server has necessary permissions to read/write files.
