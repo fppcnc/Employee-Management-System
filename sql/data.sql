@@ -1,11 +1,11 @@
 DROP
-DATABASE if exists company;
+DATABASE if exists companymanagementsystem;
 
 CREATE
-DATABASE company;
+DATABASE companymanagementsystem;
 
 USE
-company;
+companymanagementsystem;
 
 CREATE TABLE departments
 (
